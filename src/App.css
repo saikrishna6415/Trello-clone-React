@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+.checkItem {
+  background-color: rgb(138, 138, 143);
+  padding-bottom: 2px;
+}
+input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 15px;
+}
+.checkItemName {
+  padding: 8px;
+  margin: 7px;
+}
+
+.checkbox:checked + p.checkItemName {
+  text-decoration: line-through;
+}

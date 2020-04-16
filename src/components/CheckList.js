@@ -115,7 +115,7 @@ class CheckList extends React.Component {
 
         return (
             <div>
-                <Card style={{ width: '30rem' }}>
+                <Card style={{ width: '28rem' }}>
                     <Card.Body className="d-flex justify-content-between">
                         <Card.Title>{this.props.checkList.name}</Card.Title>
                         <Button variant="danger"
@@ -139,6 +139,7 @@ class CheckList extends React.Component {
                         add={this.addNewCheckItem}
                         placeholder="Enter ChecklistItem Name"
                         button="Add CheckList Item"
+                        width ="22rem"
                     />
                 </Card>
             </div>

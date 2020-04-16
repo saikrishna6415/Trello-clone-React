@@ -74,7 +74,8 @@ class List extends Component {
             method: 'DELETE'
         }).then(() => {
             this.setState({ cards: this.state.cards.filter(card => card.id !== id) });
-        });
+        })
+        .catch(err=>console.log(err))
     };
 
 
@@ -113,6 +114,7 @@ class List extends Component {
                     add={this.addNewCard}
                     placeholder="Enter Card Name"
                     button="Add Card"
+                    width ='22rem'
                 />
 
             </div>

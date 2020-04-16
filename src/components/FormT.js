@@ -6,7 +6,7 @@ function FormT(props) {
     console.log(props)
     return (
         <div >
-            <Form style={{ width: '22rem', display: props.style.display }}
+            <Form style={{ width: props.width, display: props.style.display }}
                     className="card addCardForm">
                     <Form.Group controlId="formBasicText" >
                         <Form.Control type="text"

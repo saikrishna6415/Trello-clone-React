@@ -13,12 +13,10 @@ class CardT extends React.Component {
         this.showModal();
     }
     render() {
-        // console.log(this.modalRef)
-
         // console.log(this.props)
         return (
             <div>
-                <Card style={{ width: '22rem' }} onClick={() => this.openModal()}>
+                <Card style={{ width: '22rem' }} onClick={() => this.openModal(this.props.card)}>
                     <Card.Body className="d-flex justify-content-between">
                         <Card.Title>{this.props.card.name}</Card.Title>
                         <Button variant="danger"
@@ -26,7 +24,7 @@ class CardT extends React.Component {
                             onClick={event => this.props.deleteCard(event, this.props.card.id)}>X</Button>
                     </Card.Body>
                 </Card>
-                <ModalT ref ={this.modalRef}card ={this.props.card}/>
+                <ModalT ref ={this.modalRef} card ={this.props.card}/>
             </div>
         );
     }

@@ -23,7 +23,7 @@ class ModalT extends Component {
     }
     handleShow() {
         // console.log(this.state)
-        this.setState({ show: true })
+        this.setState({ show: !this.state.show })
     }
     handleClose() {
         this.setState({ show: false })
@@ -113,15 +113,15 @@ class ModalT extends Component {
         return (
 
             <div>
-                <Modal show={this.state.show} onHide={this.handleClose} >
+                <Modal  dialogClassName="modal-90w" show={this.state.show} onHide={this.handleClose} >
                     <Modal.Header closeButton>
                         <Modal.Title>{this.props.card.name}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{ overflow: "scroll" }}>
-                        <div className="card addcard" style={{ width: '22rem' }}>
+                        <div className="card addcard d-flex justify-content-center" >
                             <button className="addButton btn btn-primary"
                                 onClick={this.newCheckListbutton}
-                                style={{ margin: '15px', display: newCheckListbutton }}>
+                                style={{ margin: '15px', display: newCheckListbutton,width:'15rem' }}>
                                 Add New Checklist
                         </button>
                         </div>
