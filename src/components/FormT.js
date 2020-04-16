@@ -10,21 +10,20 @@ function FormT(props) {
                     className="card addCardForm">
                     <Form.Group controlId="formBasicText" >
                         <Form.Control type="text"
-                            placeholder="Enter Card name"
+                            placeholder={props.placeholder}
                             onChange={props.inputState}
-                            value={props.input} />
+                            value={props.input} required/>
                     </Form.Group>
                     <Form.Group className="d-flex justify-content-between">
                         <Button style={{ margin: '9px' }}
-                            onClick={props.addNewCard}
-                            variant="primary"
-                            type="submit">
-                            Add Card
+                            onClick={props.add}
+                            variant="primary">
+                            {props.button}
                      </Button>
                         <Button style={{ margin: '9px' }}
                             onClick={props.closeAddForm}
                             variant="danger"
-                            type="submit">
+                            >
                             X
                          </Button>
                     </Form.Group>

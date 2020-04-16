@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card } from 'react-bootstrap';
-import CardT from './Card'
-import FormT from './Form'
+import CardT from './CardT'
+import FormT from './FormT';
 
 const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
 const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
@@ -34,24 +34,6 @@ class List extends Component {
             })
             .catch(err => console.log(err))
     }
-    addNewCard = () => {
-        fetch(`https://api.trello.com/1/cards?name=${this.state.cardName}&idList=${listId}&keepFromSource=all&key=${key}&token=${token}`, {
-            method: 'POST'
-        }
-        )
-            .then(data => {
-                data.json()
-                    .then(data => {
-                        this.setState({
-                            cards: this.state.cards.concat([data]),
-                            cardName: ''
-                        });
-                    })
-            })
-            .catch(err => console.log(err))
-
-
-    };
     newCardbutton = () => {
         this.setState(prevState => ({
             newCardbutton: !prevState.newCardbutton,
@@ -70,19 +52,22 @@ class List extends Component {
         });
     };
     addNewCard = () => {
-        fetch(`https://api.trello.com/1/cards?idList=${listId}&name=${this.state.cardName}&keepFromSource=all&key=${key}&token=${token}`, {
-            method: 'POST'
-        })
-            .then(data => {
-                data.json()
-                    .then(data => {
-                        this.setState({
-                            cards: this.state.cards.concat([data]),
-                            cardName: ''
+        if (this.state.cardName !== '') {
+            fetch(`https://api.trello.com/1/cards?idList=${listId}&name=${this.state.cardName}&keepFromSource=all&key=${key}&token=${token}`, {
+                method: 'POST'
+            })
+                .then(data => {
+                    data.json()
+                        .then(data => {
+                            this.setState({
+                                cards: this.state.cards.concat([data]),
+                                cardName: ''
+                            });
                         });
-                    });
-            }).catch(err => console.log(err))
+                }).catch(err => console.log(err))
+        }
     };
+
     deleteCard = (event, id) => {
         event.stopPropagation();
         fetch(`https://api.trello.com/1/cards/${id}?key=${key}&token=${token}`, {
@@ -101,7 +86,7 @@ class List extends Component {
             console.log(card)
             return (
                 <CardT key={card.id}
-                    cards={card}
+                    card={card}
                     deleteCard={this.deleteCard}
                     onClick={this.props.showModal}
                 />
@@ -125,7 +110,9 @@ class List extends Component {
                     closeAddForm={this.closeAddForm}
                     inputState={this.inputState}
                     input={this.state.cardName}
-                    addNewCard={this.addNewCard}
+                    add={this.addNewCard}
+                    placeholder="Enter Card Name"
+                    button="Add Card"
                 />
 
             </div>
