@@ -22,7 +22,7 @@ class ModalT extends Component {
 
     }
     handleShow() {
-        console.log(this.state)
+        // console.log(this.state)
         this.setState({ show: true })
     }
     handleClose() {
@@ -31,21 +31,19 @@ class ModalT extends Component {
 
 
     componentDidMount(prevProps) {
-        console.log(this.props.card.id)
+        // console.log(this.props.card.id)
         if (this.props.card.id) {
-            fetch(
-                `https://api.trello.com/1/cards/${this.props.card.id}/checklists?checkItems=all&checkItem_fields=name%2CnameData%2Cpos%2Cstate&filter=all&fields=all&key=${key}&token=${token}`,
-
-                {
-                    method: 'GET'
-                }
-            )
-                .then(data => data.json())
-                .then(data =>
-                    this.setState({
-                        checkLists: data
-                    })
-                );
+            fetch(`https://api.trello.com/1/cards/${this.props.card.id}/checklists?checkItems=all&checkItem_fields=name%2CnameData%2Cpos%2Cstate&filter=all&fields=all&key=${key}&token=${token}`, {
+                method: 'GET'
+            })
+                .then(data => {
+                    data.json()
+                        .then(data =>
+                            this.setState({
+                                checkLists: data
+                            })
+                        );
+                }).catch(err => console.log(err))
         }
     }
     newCheckListbutton = () => {
@@ -73,16 +71,18 @@ class ModalT extends Component {
                 method: 'POST'
             }
         )
-            .then(data => data.json())
             .then(data => {
-                console.log(data);
-                this.setState({
-                    checkLists: this.state.checkLists.concat([data]),
-                    inputValue: ''
-                });
-            });
+                data.json()
+                    .then(data => {
+                        console.log(data);
+                        this.setState({
+                            checkLists: this.state.checkLists.concat([data]),
+                            inputValue: ''
+                        });
+                    });
+            }).catch(err => console.log(err))
     };
-    deleteCheckList =(event, id) => {
+    deleteCheckList = (event, id) => {
         fetch(
             `https://api.trello.com/1/checkLists/${id}?key=${key}&token=${token}`,
             {
@@ -117,7 +117,7 @@ class ModalT extends Component {
                     <Modal.Header closeButton>
                         <Modal.Title>{this.props.card.name}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body style={{overflow :"scroll"}}>
+                    <Modal.Body style={{ overflow: "scroll" }}>
                         <div className="card addcard" style={{ width: '22rem' }}>
                             <button className="addButton btn btn-primary"
                                 onClick={this.newCheckListbutton}
@@ -126,13 +126,13 @@ class ModalT extends Component {
                         </button>
                         </div>
                         <FormT
-                            style={{ display: closeAddForm}}
+                            style={{ display: closeAddForm }}
                             closeAddForm={this.closeAddForm}
                             inputState={this.inputState}
                             input={this.state.inputValue}
                             add={this.addNewCheckList}
-                            placeholder ="Enter Checklist Name"
-                            button ="Add CheckList"
+                            placeholder="Enter Checklist Name"
+                            button="Add CheckList"
                         />
                         {checkLists}
                     </Modal.Body>

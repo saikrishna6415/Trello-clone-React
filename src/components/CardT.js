@@ -13,7 +13,7 @@ class CardT extends React.Component {
         this.showModal();
     }
     render() {
-        console.log(this.modalRef)
+        // console.log(this.modalRef)
 
         // console.log(this.props)
         return (
