@@ -83,7 +83,7 @@ class CheckList extends React.Component {
   if (event.target.checked === true) { 
       status = 'complete'; 
     }
-        var checkItemStatus = event.target.checked ? 'complete' : 'incomplete';
+        // var checkItemStatus = event.target.checked ? 'complete' : 'incomplete';
         fetch(
             `https://api.trello.com/1/cards/${this.props.checkList.idCard}/checkItem/${checkItem.id}?state=${status}&key=${key}&token=${token}`,
             {

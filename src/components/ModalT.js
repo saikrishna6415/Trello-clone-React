@@ -6,28 +6,28 @@ const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
 const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
 
 class ModalT extends Component {
-    constructor(props, context) {
-        super(props, context);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleClose = this.handleClose.bind(this);
+    constructor(props) {
+        super(props);
+        // this.handleShow = this.handleShow.bind(this);
+        // this.handleClose = this.handleClose.bind(this);
         this.state = {
-            show: false,
+            // show: false,
             cardId: '',
             checkLists: [],
             newCheckListbutton: true,
             closeAddForm: false,
 
         }
-        // console.log(props)
+        console.log(props)
 
     }
-    handleShow() {
-        // console.log(this.state)
-        this.setState({ show: !this.state.show })
-    }
-    handleClose() {
-        this.setState({ show: false })
-    }
+    // handleShow() {
+    //     // console.log(this.state)
+    //     this.setState({ show: !this.state.show })
+    // }
+    // handleClose() {
+    //     this.setState({ show: false })
+    // }
 
 
     componentDidMount(prevProps) {
@@ -113,7 +113,7 @@ class ModalT extends Component {
         return (
 
             <div>
-                <Modal  dialogClassName="modal-90w" show={this.state.show} onHide={this.handleClose} >
+                <Modal  dialogClassName="modal-90w" show={this.props.show} onHide={this.props.onHide} >
                     <Modal.Header closeButton>
                         <Modal.Title>{this.props.card.name}</Modal.Title>
                     </Modal.Header>
