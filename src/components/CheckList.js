@@ -139,7 +139,7 @@ class CheckList extends React.Component {
                         add={this.addNewCheckItem}
                         placeholder="Enter ChecklistItem Name"
                         button="Add CheckList Item"
-                        width ="22rem"
+                        // width ="22rem"
                     />
                 </Card>
             </div>
