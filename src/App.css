@@ -50,6 +50,6 @@ input[type="checkbox"] {
   margin: 7px;
 }
 
-.checkbox:checked + p.checkItemName {
+input[type="checkbox"] :checked p.checkItemName{
   text-decoration: line-through;
 }

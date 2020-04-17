@@ -12,6 +12,7 @@ class CheckList extends React.Component {
             checkItems: [],
             newCheckListiitembutton: true,
             closeAddForm: false,
+            checkItemname :''
         }
     }
 
@@ -56,13 +57,15 @@ class CheckList extends React.Component {
                 method: 'POST'
             }
         )
-            .then(data => data.json())
-            .then(data =>
-                this.setState({
-                    checkItems: this.state.checkItems.concat([data]),
-                    inputValue: ''
-                })
-            );
+            .then(data => {
+                data.json()
+                    .then(data =>
+                        this.setState({
+                            checkItems: this.state.checkItems.concat([data]),
+                            inputValue: ''
+                        })
+                    );
+            }).catch(err => console.log(err))
     };
     deleteCheckItem = id => {
         fetch(
@@ -76,13 +79,13 @@ class CheckList extends React.Component {
                     CheckItem => CheckItem.id !== id
                 )
             });
-        });
+        }).catch(err => console.log(err))
     };
     updateCheckItem = (event, checkItem) => {
         var status = 'incomplete';
-  if (event.target.checked === true) { 
-      status = 'complete'; 
-    }
+        if (event.target.checked === true) {
+            status = 'complete';
+        }
         // var checkItemStatus = event.target.checked ? 'complete' : 'incomplete';
         fetch(
             `https://api.trello.com/1/cards/${this.props.checkList.idCard}/checkItem/${checkItem.id}?state=${status}&key=${key}&token=${token}`,
@@ -90,16 +93,17 @@ class CheckList extends React.Component {
                 method: 'PUT'
             }
         )
-            .then(data => data.json())
             .then(data => {
-                var allItem = this.state.checkItems;
-                allItem[allItem.indexOf(checkItem)].state = data.state;
-                this.setState({
-                    checkItems: allItem
-                });
-            });
+                data.json()
+                    .then(data => {
+                        var allItem = this.state.checkItems;
+                        allItem[allItem.indexOf(checkItem)].state = data.state;
+                        this.setState({
+                            checkItems: allItem
+                        });
+                    });
+            }).catch(err => console.log(err))
     };
-
     render() {
         // console.log(this.props)
         var newCheckListiitembutton = this.state.newCheckListiitembutton ? 'block' : 'none';
@@ -110,6 +114,7 @@ class CheckList extends React.Component {
                 checkItem={checkItem}
                 deleteCheckItem={this.deleteCheckItem}
                 updateCheckItem={this.updateCheckItem}
+                updateCheckListItemName ={this.updateCheckListItemName}
             />
         ));
 
@@ -139,7 +144,7 @@ class CheckList extends React.Component {
                         add={this.addNewCheckItem}
                         placeholder="Enter ChecklistItem Name"
                         button="Add CheckList Item"
-                        // width ="22rem"
+                    // width ="22rem"
                     />
                 </Card>
             </div>

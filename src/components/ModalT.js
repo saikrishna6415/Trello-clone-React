@@ -94,7 +94,7 @@ class ModalT extends Component {
                     checkList => checkList.id !== id
                 )
             });
-        });
+        }).catch(err => console.log(err))
     };
 
 
