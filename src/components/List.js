@@ -90,42 +90,45 @@ class List extends Component {
                 <CardT key={card.id}
                     card={card}
                     deleteCard={this.deleteCard}
-                    onClick={this.props.showModal}
+                // onClick={this.props.showModal}
                 />
             );
         });
         return (
             <div className="list" style={{ margin: "5px" }}>
-                <Card style={{ width: '22rem' }}>
-                    <div className="d-flex justify-content-between" style={{ margin: "5px", padding: "10px" }}>
-                        <Card.Title>{this.props.lists.name}</Card.Title>
-                        <button
-                            onClick={() => this.props.deleteList(this.props.lists.id)}
-                            className='btn-default deleteButtonForList'>
-                            X
+                <div className="lists">
+                    <Card style={{ width: '22rem' }} >
+                        <div className="d-flex justify-content-between" style={{ height: "70px", padding: "9px", backgroundColor: 'rgb(226, 225, 227)' }}>
+                            <Card.Title>{this.props.lists.name}</Card.Title>
+                            <button
+                                onClick={() => this.props.deleteList(this.props.lists.id)}
+                                className='btn-default deleteButtonForList'>
+                                X
+                        </button>
+
+                        </div>
+                    </Card>
+                    {allCards}
+
+
+                    <div className="card addcard" style={{ width: '22rem' }}>
+                        <button className="addButton btn btn-primary"
+                            onClick={this.newCardbutton}
+                            style={{ margin: '15px', display: newCardbutton }}>
+                            Add New Card
                         </button>
                     </div>
-                </Card>
-
-                <div className="card addcard" style={{ width: '22rem' }}>
-                    <button className="addButton btn btn-primary"
-                        onClick={this.newCardbutton}
-                        style={{ margin: '15px', display: newCardbutton }}>
-                        Add New Card
-                        </button>
+                    <FormT
+                        style={{ display: closeAddForm }}
+                        closeAddForm={this.closeAddForm}
+                        inputState={this.inputState}
+                        input={this.state.cardName}
+                        add={this.addNewCard}
+                        placeholder="Enter Card Name"
+                        button="Add Card"
+                        width='22rem'
+                    />
                 </div>
-                {allCards}
-                <FormT
-                    style={{ display: closeAddForm }}
-                    closeAddForm={this.closeAddForm}
-                    inputState={this.inputState}
-                    input={this.state.cardName}
-                    add={this.addNewCard}
-                    placeholder="Enter Card Name"
-                    button="Add Card"
-                    width='22rem'
-                />
-
             </div>
         )
     }

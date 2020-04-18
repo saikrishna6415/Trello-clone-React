@@ -32,7 +32,7 @@ class CardT extends React.Component {
         // console.log(this.props)
         return (
             <div>
-                <Card style={{ width: '22rem' }} onClick={this.handleShow}>
+                <Card style={{ width: '22rem' ,marginBottom:'5px' }} onClick={this.handleShow}>
                     <Card.Body className="d-flex justify-content-between">
                         <Card.Title>{this.props.card.name}</Card.Title>
                         <Button variant="danger"

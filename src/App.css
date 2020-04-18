@@ -52,39 +52,43 @@ input[type="checkbox"] {
   margin: 7px;
 }
 
-input[type="checkbox"] :checked p.checkItemName{
+input[type="checkbox"] :checked p.checkItemName {
   text-decoration: line-through;
 }
-.home{
-margin-top: 20px;
-font-size: 60px;
+.home {
+  margin-top: 20px;
+  font-size: 60px;
 }
-.board{
+.board {
   margin: 10px 20px;
   width: 200px;
 }
-.header{
+.header {
   background: white;
-  padding:10px;
+  padding: 10px;
 }
-.boardButton{
-  margin-left:70px;
+.boardButton {
+  margin-left: 70px;
 }
-.logo{
-height: 40px;
+.logo {
+  height: 40px;
 }
-.list{
+.list {
   margin: 5px;
 }
-.addList{
-  width: 22rem; 
+.addList {
+  width: 22rem;
   height: 90px;
   margin: 5px;
 }
-.addListButton{
-  margin: 15px ;
-  width: 100px; 
+.addListButton {
+  margin: 15px;
+  width: 20em;
 }
-.checkItem{
+.checkItem {
   margin-bottom: 5px;
+}
+.lists {
+  background-color: rgb(225, 226, 227);
+  padding: 15px;
 }
