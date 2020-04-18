@@ -14,7 +14,6 @@ class CardT extends React.Component {
     // }
     constructor() {
         super()
-        this.wrapper = React.createRef();
         this.state = {
             show: false
         }
@@ -42,7 +41,7 @@ class CardT extends React.Component {
                     </Card.Body>
                 </Card>
                 {/* <ModalT ref={this.modalRef} card={this.props.card} /> */}
-                <ModalT  ref={this.wrapper}show={this.state.show} card={this.props.card} onHide={this.handleClose}>{this.props.children}</ModalT> 
+                <ModalT  show={this.state.show} card={this.props.card} onHide={this.handleClose}/>
 
             </div>
         );
