@@ -3,12 +3,12 @@ import {  Form, Button } from 'react-bootstrap';
 
 
 function FormT(props) {
-    console.log(props)
+    // console.log(props)
     return (
         <div >
             <Form style={{ width: props.width, display: props.style.display }}
                     className="card addCardForm">
-                    <Form.Group controlId="formBasicText" >
+                    <Form.Group style={{marginTop:'10px'}} >
                         <Form.Control type="text"
                             placeholder={props.placeholder}
                             onChange={props.inputState}

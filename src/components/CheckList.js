@@ -12,7 +12,7 @@ class CheckList extends React.Component {
             checkItems: [],
             newCheckListiitembutton: true,
             closeAddForm: false,
-            checkItemname :''
+            checkItemname: ''
         }
     }
 
@@ -30,7 +30,7 @@ class CheckList extends React.Component {
     }
     inputState = event => {
         this.setState({
-            inputValue: event.target.value
+            checkItemName: event.target.value
         });
     };
     componentDidMount() {
@@ -51,21 +51,23 @@ class CheckList extends React.Component {
     }
 
     addNewCheckItem = () => {
-        fetch(
-            `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems?name=${this.state.inputValue}&pos=bottom&checked=false&key=${key}&token=${token}`,
-            {
-                method: 'POST'
-            }
-        )
-            .then(data => {
-                data.json()
-                    .then(data =>
-                        this.setState({
-                            checkItems: this.state.checkItems.concat([data]),
-                            inputValue: ''
-                        })
-                    );
-            }).catch(err => console.log(err))
+        if (this.state.checkItemName !== '') {
+            fetch(
+                `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems?name=${this.state.checkItemName}&pos=bottom&checked=false&key=${key}&token=${token}`,
+                {
+                    method: 'POST'
+                }
+            )
+                .then(data => {
+                    data.json()
+                        .then(data =>
+                            this.setState({
+                                checkItems: this.state.checkItems.concat([data]),
+                                checkItemName: ''
+                            })
+                        );
+                }).catch(err => console.log(err))
+        }
     };
     deleteCheckItem = id => {
         fetch(
@@ -114,7 +116,6 @@ class CheckList extends React.Component {
                 checkItem={checkItem}
                 deleteCheckItem={this.deleteCheckItem}
                 updateCheckItem={this.updateCheckItem}
-                updateCheckListItemName ={this.updateCheckListItemName}
             />
         ));
 
@@ -140,7 +141,7 @@ class CheckList extends React.Component {
                         style={{ display: closeAddForm }}
                         closeAddForm={this.closeAddForm}
                         inputState={this.inputState}
-                        input={this.state.inputValue}
+                        input={this.state.checkItemName}
                         add={this.addNewCheckItem}
                         placeholder="Enter ChecklistItem Name"
                         button="Add CheckList Item"

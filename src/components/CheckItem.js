@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 class CheckItem extends Component {
     render() {
-        console.log(this.props)
+        // console.log(this.props)
         return (
-            <div className='checkItem d-flex justify-content-between' style={{ margin: "10px" }}>
+            <div className='checkItem d-flex justify-content-between'>
                 <input
                     onChange={(event) =>
                         this.props.updateCheckItem(event, this.props.checkItem)
                     }
-                    type='checkBox' style={{ width: "25px", height: "25px" }}
+                    type='checkBox'
                     className='checkBox'
                     checked={this.props.checkItem.state === 'incomplete' ? false : true}
                     readOnly

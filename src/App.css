@@ -37,13 +37,15 @@
   }
 }
 .checkItem {
-  background-color: rgb(138, 138, 143);
+  background-color: rgb(194, 201, 201);
   padding-bottom: 2px;
 }
 input[type="checkbox"] {
   box-sizing: border-box;
   padding: 0;
   margin: 15px;
+  width: 25px;
+  height: 25px;
 }
 .checkItemName {
   padding: 8px;
@@ -52,4 +54,36 @@ input[type="checkbox"] {
 
 input[type="checkbox"] :checked p.checkItemName{
   text-decoration: line-through;
+}
+.home{
+display: flex;
+justify-content: center;
+margin-top: 20px;
+font-size: 60px;
+}
+.board{
+  margin: 10px 20px;
+  width: 200px;
+}
+.header{
+  background: white;
+  padding:10px;
+}
+.boardButton{
+  margin-left:70px;
+}
+.logo{
+height: 40px;
+}
+.list{
+  margin: 5px;
+}
+.addList{
+  width: 22rem; 
+  height: 90px;
+  margin: 5px;
+}
+.addListButton{
+  margin: 15px ;
+  width: 100px; 
 }

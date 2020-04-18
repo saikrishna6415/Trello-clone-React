@@ -12,13 +12,13 @@ class ModalT extends Component {
         // this.handleClose = this.handleClose.bind(this);
         this.state = {
             // show: false,
-            cardId: '',
+            checkListName: '',
             checkLists: [],
             newCheckListbutton: true,
-            closeAddForm: false,
+            closeAddForm: false
 
         }
-        console.log(props)
+        // console.log(props)
 
     }
     // handleShow() {
@@ -60,27 +60,29 @@ class ModalT extends Component {
     }
     inputState = event => {
         this.setState({
-            inputValue: event.target.value
+            checkListName: event.target.value
         });
     };
     addNewCheckList = () => {
-        console.log(this.state.inputValue)
-        fetch(
-            `https://api.trello.com/1/cards/${this.props.card.id}/checkLists?name=${this.state.inputValue}&key=${key}&token=${token}`,
-            {
-                method: 'POST'
-            }
-        )
-            .then(data => {
-                data.json()
-                    .then(data => {
-                        console.log(data);
-                        this.setState({
-                            checkLists: this.state.checkLists.concat([data]),
-                            inputValue: ''
+        // console.log(this.state.checkListName)
+        if (this.state.checkListName !== '') {
+            fetch(
+                `https://api.trello.com/1/cards/${this.props.card.id}/checkLists?name=${this.state.checkListName}&key=${key}&token=${token}`,
+                {
+                    method: 'POST'
+                }
+            )
+                .then(data => {
+                    data.json()
+                        .then(data => {
+                            console.log(data);
+                            this.setState({
+                                checkLists: this.state.checkLists.concat([data]),
+                                checkListName: ''
+                            });
                         });
-                    });
-            }).catch(err => console.log(err))
+                }).catch(err => console.log(err))
+        }
     };
     deleteCheckList = (event, id) => {
         fetch(
@@ -113,15 +115,15 @@ class ModalT extends Component {
         return (
 
             <div>
-                <Modal  dialogClassName="modal-90w" show={this.props.show} onHide={this.props.onHide} >
+                <Modal dialogClassName="modal-90w" show={this.props.show} onHide={this.props.onHide} >
                     <Modal.Header closeButton>
                         <Modal.Title>{this.props.card.name}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body style={{ overflow: "scroll" }}>
                         <div className="card addcard d-flex justify-content-center" >
-                            <button className="addButton btn btn-primary"
+                            <button className="addButton btn btn-primary m-1 w-5"
                                 onClick={this.newCheckListbutton}
-                                style={{ margin: '15px', display: newCheckListbutton,width:'15rem' }}>
+                                style={{ display: newCheckListbutton }}>
                                 Add New Checklist
                         </button>
                         </div>
@@ -129,7 +131,7 @@ class ModalT extends Component {
                             style={{ display: closeAddForm }}
                             closeAddForm={this.closeAddForm}
                             inputState={this.inputState}
-                            input={this.state.inputValue}
+                            input={this.state.checkListName}
                             add={this.addNewCheckList}
                             placeholder="Enter Checklist Name"
                             button="Add CheckList"

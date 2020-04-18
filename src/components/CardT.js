@@ -14,6 +14,7 @@ class CardT extends React.Component {
     // }
     constructor() {
         super()
+        this.wrapper = React.createRef();
         this.state = {
             show: false
         }
@@ -32,7 +33,7 @@ class CardT extends React.Component {
         // console.log(this.props)
         return (
             <div>
-                <Card style={{ width: '22rem' }} onClick = {this.handleShow} onHide = {this.handleClose}>
+                <Card style={{ width: '22rem' }} onClick={this.handleShow}>
                     <Card.Body className="d-flex justify-content-between">
                         <Card.Title>{this.props.card.name}</Card.Title>
                         <Button variant="danger"
@@ -41,7 +42,7 @@ class CardT extends React.Component {
                     </Card.Body>
                 </Card>
                 {/* <ModalT ref={this.modalRef} card={this.props.card} /> */}
-                <ModalT show = {this.state.show} card={this.props.card} onHide = {this.handleClose}/>
+                <ModalT  ref={this.wrapper}show={this.state.show} card={this.props.card} onHide={this.handleClose}>{this.props.children}</ModalT> 
 
             </div>
         );

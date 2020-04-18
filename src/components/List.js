@@ -6,7 +6,7 @@ import FormT from './FormT';
 const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
 const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
 // const boardId = '5e85acba78a12f3e5a028ba7';
-const listId = '5e85ad2f4e862e4caf13bc81';
+// const listId = '5e85ad2f4e862e4caf13bc81';
 
 class List extends Component {
     constructor() {
@@ -20,13 +20,13 @@ class List extends Component {
         }
     }
     componentDidMount() {
-        fetch(`https://api.trello.com/1/lists/${listId}/cards?key=${key}&token=${token}`, {
+        fetch(`https://api.trello.com/1/lists/${this.props.lists.id}/cards?key=${key}&token=${token}`, {
             method: 'GET'
         })
             .then(data => {
                 data.json()
                     .then(data => {
-                        console.log(data);
+                        // console.log(data);
                         this.setState({
                             cards: data
                         });
@@ -53,7 +53,7 @@ class List extends Component {
     };
     addNewCard = () => {
         if (this.state.cardName !== '') {
-            fetch(`https://api.trello.com/1/cards?idList=${listId}&name=${this.state.cardName}&keepFromSource=all&key=${key}&token=${token}`, {
+            fetch(`https://api.trello.com/1/cards?idList=${this.props.lists.id}&name=${this.state.cardName}&keepFromSource=all&key=${key}&token=${token}`, {
                 method: 'POST'
             })
                 .then(data => {
@@ -75,7 +75,7 @@ class List extends Component {
         }).then(() => {
             this.setState({ cards: this.state.cards.filter(card => card.id !== id) });
         })
-        .catch(err=>console.log(err))
+            .catch(err => console.log(err))
     };
 
 
@@ -84,7 +84,7 @@ class List extends Component {
         var newCardbutton = this.state.newCardbutton ? 'block' : 'none';
         var closeAddForm = this.state.closeAddForm ? 'block' : 'none'
         var allCards = this.state.cards.map(card => {
-            console.log(card)
+            // console.log(card)
             return (
                 <CardT key={card.id}
                     card={card}
@@ -94,10 +94,18 @@ class List extends Component {
             );
         });
         return (
-            <div>
+            <div className ="list" style={{margin:"5px"}}>
                 <Card style={{ width: '22rem' }}>
-                    <Card.Title>List</Card.Title>
+                    <div className="d-flex justify-content-between" style={{margin:"5px",padding:"10px"}}>
+                        <Card.Title>{this.props.lists.name}</Card.Title>
+                        <button
+                            onClick={() => this.props.deleteList(this.props.lists.id)}
+                            className='btn-default deleteButtonForList'>
+                            X
+                        </button>
+                    </div>
                 </Card>
+
                 <div className="card addcard" style={{ width: '22rem' }}>
                     <button className="addButton btn btn-primary"
                         onClick={this.newCardbutton}
@@ -114,7 +122,7 @@ class List extends Component {
                     add={this.addNewCard}
                     placeholder="Enter Card Name"
                     button="Add Card"
-                    width ='22rem'
+                    width='22rem'
                 />
 
             </div>
