@@ -56,8 +56,6 @@ input[type="checkbox"] :checked p.checkItemName{
   text-decoration: line-through;
 }
 .home{
-display: flex;
-justify-content: center;
 margin-top: 20px;
 font-size: 60px;
 }
@@ -86,4 +84,7 @@ height: 40px;
 .addListButton{
   margin: 15px ;
   width: 100px; 
+}
+.checkItem{
+  margin-bottom: 5px;
 }

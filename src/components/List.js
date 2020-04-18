@@ -3,8 +3,8 @@ import { Card } from 'react-bootstrap';
 import CardT from './CardT'
 import FormT from './FormT';
 
-const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
-const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
+// const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
+// const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
 // const boardId = '5e85acba78a12f3e5a028ba7';
 // const listId = '5e85ad2f4e862e4caf13bc81';
 
@@ -15,12 +15,13 @@ class List extends Component {
             cards: [],
             cardName: '',
             newCardbutton: true,
-            closeAddForm: false
-
+            closeAddForm: false,
+            key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
+            token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
         }
     }
     componentDidMount() {
-        fetch(`https://api.trello.com/1/lists/${this.props.lists.id}/cards?key=${key}&token=${token}`, {
+        fetch(`https://api.trello.com/1/lists/${this.props.lists.id}/cards?key=${this.state.key}&token=${this.state.token}`, {
             method: 'GET'
         })
             .then(data => {
@@ -53,7 +54,7 @@ class List extends Component {
     };
     addNewCard = () => {
         if (this.state.cardName !== '') {
-            fetch(`https://api.trello.com/1/cards?idList=${this.props.lists.id}&name=${this.state.cardName}&keepFromSource=all&key=${key}&token=${token}`, {
+            fetch(`https://api.trello.com/1/cards?idList=${this.props.lists.id}&name=${this.state.cardName}&keepFromSource=all&key=${this.state.key}&token=${this.state.token}`, {
                 method: 'POST'
             })
                 .then(data => {
@@ -70,7 +71,7 @@ class List extends Component {
 
     deleteCard = (event, id) => {
         event.stopPropagation();
-        fetch(`https://api.trello.com/1/cards/${id}?key=${key}&token=${token}`, {
+        fetch(`https://api.trello.com/1/cards/${id}?key=${this.state.key}&token=${this.state.token}`, {
             method: 'DELETE'
         }).then(() => {
             this.setState({ cards: this.state.cards.filter(card => card.id !== id) });
@@ -94,9 +95,9 @@ class List extends Component {
             );
         });
         return (
-            <div className ="list" style={{margin:"5px"}}>
+            <div className="list" style={{ margin: "5px" }}>
                 <Card style={{ width: '22rem' }}>
-                    <div className="d-flex justify-content-between" style={{margin:"5px",padding:"10px"}}>
+                    <div className="d-flex justify-content-between" style={{ margin: "5px", padding: "10px" }}>
                         <Card.Title>{this.props.lists.name}</Card.Title>
                         <button
                             onClick={() => this.props.deleteList(this.props.lists.id)}

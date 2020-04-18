@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import CheckList from './CheckList'
 import FormT from './FormT'
-const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
-const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
+// const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
+// const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
 
 class ModalT extends Component {
     constructor(props) {
@@ -15,8 +15,9 @@ class ModalT extends Component {
             checkListName: '',
             checkLists: [],
             newCheckListbutton: true,
-            closeAddForm: false
-
+            closeAddForm: false,
+            key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
+            token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
         }
         // console.log(props)
 
@@ -33,7 +34,7 @@ class ModalT extends Component {
     componentDidMount(prevProps) {
         // console.log(this.props.card.id)
         if (this.props.card.id) {
-            fetch(`https://api.trello.com/1/cards/${this.props.card.id}/checklists?checkItems=all&checkItem_fields=name%2CnameData%2Cpos%2Cstate&filter=all&fields=all&key=${key}&token=${token}`, {
+            fetch(`https://api.trello.com/1/cards/${this.props.card.id}/checklists?checkItems=all&checkItem_fields=name%2CnameData%2Cpos%2Cstate&filter=all&fields=all&key=${this.state.key}&token=${this.state.token}`, {
                 method: 'GET'
             })
                 .then(data => {
@@ -67,7 +68,7 @@ class ModalT extends Component {
         // console.log(this.state.checkListName)
         if (this.state.checkListName !== '') {
             fetch(
-                `https://api.trello.com/1/cards/${this.props.card.id}/checkLists?name=${this.state.checkListName}&key=${key}&token=${token}`,
+                `https://api.trello.com/1/cards/${this.props.card.id}/checkLists?name=${this.state.checkListName}&key=${this.state.key}&token=${this.state.token}`,
                 {
                     method: 'POST'
                 }
@@ -86,7 +87,7 @@ class ModalT extends Component {
     };
     deleteCheckList = (event, id) => {
         fetch(
-            `https://api.trello.com/1/checkLists/${id}?key=${key}&token=${token}`,
+            `https://api.trello.com/1/checkLists/${id}?key=${this.state.key}&token=${this.state.token}`,
             {
                 method: 'DELETE'
             }
@@ -109,6 +110,7 @@ class ModalT extends Component {
                 key={checkList.id}
                 checkList={checkList}
                 deleteCheckList={this.deleteCheckList}
+                card={this.props.card.id}
             />
         ));
 

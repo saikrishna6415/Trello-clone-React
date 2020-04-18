@@ -12,7 +12,7 @@ function FormT(props) {
                         <Form.Control type="text"
                             placeholder={props.placeholder}
                             onChange={props.inputState}
-                            value={props.input} required/>
+                            value={props.input || ''} required/>
                     </Form.Group>
                     <Form.Group className="d-flex justify-content-between">
                         <Button style={{ margin: '9px' }}

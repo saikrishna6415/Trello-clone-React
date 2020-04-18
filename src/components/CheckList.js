@@ -2,8 +2,8 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap'
 import FormT from './FormT'
 import CheckItem from './CheckItem';
-const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
-const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
+// const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
+// const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
 
 class CheckList extends React.Component {
     constructor() {
@@ -12,7 +12,9 @@ class CheckList extends React.Component {
             checkItems: [],
             newCheckListiitembutton: true,
             closeAddForm: false,
-            checkItemname: ''
+            checkItemname: '',
+            key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
+            token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
         }
     }
 
@@ -35,7 +37,7 @@ class CheckList extends React.Component {
     };
     componentDidMount() {
         fetch(
-            `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems?key=${key}&token=${token}`,
+            `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems?key=${this.state.key}&token=${this.state.token}`,
             {
                 method: 'GET'
             }
@@ -53,7 +55,7 @@ class CheckList extends React.Component {
     addNewCheckItem = () => {
         if (this.state.checkItemName !== '') {
             fetch(
-                `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems?name=${this.state.checkItemName}&pos=bottom&checked=false&key=${key}&token=${token}`,
+                `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems?name=${this.state.checkItemName}&pos=bottom&checked=false&key=${this.state.key}&token=${this.state.token}`,
                 {
                     method: 'POST'
                 }
@@ -71,7 +73,7 @@ class CheckList extends React.Component {
     };
     deleteCheckItem = id => {
         fetch(
-            `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems/${id}?key=${key}&token=${token}`,
+            `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems/${id}?key=${this.state.key}&token=${this.state.token}`,
             {
                 method: 'DELETE'
             }
@@ -90,7 +92,7 @@ class CheckList extends React.Component {
         }
         // var checkItemStatus = event.target.checked ? 'complete' : 'incomplete';
         fetch(
-            `https://api.trello.com/1/cards/${this.props.checkList.idCard}/checkItem/${checkItem.id}?state=${status}&key=${key}&token=${token}`,
+            `https://api.trello.com/1/cards/${this.props.checkList.idCard}/checkItem/${checkItem.id}?state=${status}&key=${this.state.key}&token=${this.state.token}`,
             {
                 method: 'PUT'
             }
@@ -116,6 +118,7 @@ class CheckList extends React.Component {
                 checkItem={checkItem}
                 deleteCheckItem={this.deleteCheckItem}
                 updateCheckItem={this.updateCheckItem}
+                card={this.props.checkList.idCard}
             />
         ));
 
