@@ -102,7 +102,7 @@ class List extends Component {
                             <Card.Title>{this.props.lists.name}</Card.Title>
                             <button
                                 onClick={() => this.props.deleteList(this.props.lists.id)}
-                                className='btn-default deleteButtonForList'>
+                                className='btn-default deleteButtonForList' style={{height:"30px"}}>
                                 X
                         </button>
 

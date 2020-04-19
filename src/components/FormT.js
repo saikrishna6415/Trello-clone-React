@@ -8,7 +8,7 @@ function FormT(props) {
         <div >
             <Form style={{ width: props.width, display: props.style.display }}
                     className="card addCardForm">
-                    <Form.Group style={{marginTop:'10px'}} >
+                    <Form.Group style={{marginTop:'30px'}} >
                         <Form.Control type="text"
                             placeholder={props.placeholder}
                             onChange={props.inputState}
@@ -27,7 +27,6 @@ function FormT(props) {
                             X
                          </Button>
                     </Form.Group>
-
                 </Form>
         </div>
     
