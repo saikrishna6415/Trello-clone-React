@@ -34,10 +34,10 @@ class CardT extends React.Component {
             <div>
                 {this.state.show ?
                     (<div> <Card style={{ width: '22rem', marginBottom: '5px' }} onClick={this.handleShow}>
-                        <Card.Body className="d-flex justify-content-between">
+                        <Card.Body className="">
                             <Card.Title>{this.props.card.name}</Card.Title>
                             <Button variant="danger"
-                                className='deleteButton danger btn btn-xsm'
+                                className='deleteButton danger btn btn-xsm d-flex justify-content-end'
                                 onClick={event => this.props.deleteCard(event, this.props.card.id)}>X</Button>
                         </Card.Body>
                     </Card>

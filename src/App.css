@@ -74,9 +74,9 @@ input[type="checkbox"] :checked p.checkItemName {
   height: 40px;
 }
 .allLists {
-  overflow-x: scroll;
+  overflow-x: auto;
   white-space: nowrap;
-  height: 37rem;
+  height: auto;
 
   /* overflow-y: scroll; */
 }
@@ -99,4 +99,10 @@ input[type="checkbox"] :checked p.checkItemName {
 .lists {
   background-color: rgb(225, 226, 227);
   padding: 15px;
+}
+.allcards{
+  overflow-y: auto;
+  overflow-x: auto;
+  max-height: 25em;
+  font-weight: normal;
 }

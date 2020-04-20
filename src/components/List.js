@@ -102,24 +102,27 @@ class List extends Component {
                             <Card.Title>{this.props.lists.name}</Card.Title>
                             <button
                                 onClick={() => this.props.deleteList(this.props.lists.id)}
-                                className='btn-default deleteButtonForList' style={{height:"30px"}}>
+                                className='btn-default deleteButtonForList' style={{ height: "30px" }}>
                                 X
                         </button>
 
                         </div>
                     </Card>
-                    {allCards}
+                    <div className="allcards">
+                        {allCards}
+
+                    </div>
 
 
                     <div className="card addcard" style={{ width: '22rem' }}>
                         <button className="addButton btn btn-primary"
                             onClick={this.newCardbutton}
                             style={{ margin: '15px', display: newCardbutton }}>
-                            Add New Card
+                            Add Another Card
                         </button>
                     </div>
                     <FormT
-                        style={{ display: closeAddForm }}
+                        style={{ display: closeAddForm ,margin :'0px' }}
                         closeAddForm={this.closeAddForm}
                         inputState={this.inputState}
                         input={this.state.cardName}
@@ -127,6 +130,7 @@ class List extends Component {
                         placeholder="Enter Card Name"
                         button="Add Card"
                         width='22rem'
+                        marginTop = '10px'
                     />
                 </div>
             </div>
