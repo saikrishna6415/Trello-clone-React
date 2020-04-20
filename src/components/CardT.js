@@ -32,16 +32,25 @@ class CardT extends React.Component {
         // console.log(this.props)
         return (
             <div>
-                <Card style={{ width: '22rem' ,marginBottom:'5px' }} onClick={this.handleShow}>
-                    <Card.Body className="d-flex justify-content-between">
-                        <Card.Title>{this.props.card.name}</Card.Title>
-                        <Button variant="danger"
-                            className='deleteButton danger btn btn-xsm'
-                            onClick={event => this.props.deleteCard(event, this.props.card.id)}>X</Button>
-                    </Card.Body>
-                </Card>
-                {/* <ModalT ref={this.modalRef} card={this.props.card} /> */}
-                <ModalT  show={this.state.show} card={this.props.card} onHide={this.handleClose}/>
+                {this.state.show ?
+                    (<div> <Card style={{ width: '22rem', marginBottom: '5px' }} onClick={this.handleShow}>
+                        <Card.Body className="d-flex justify-content-between">
+                            <Card.Title>{this.props.card.name}</Card.Title>
+                            <Button variant="danger"
+                                className='deleteButton danger btn btn-xsm'
+                                onClick={event => this.props.deleteCard(event, this.props.card.id)}>X</Button>
+                        </Card.Body>
+                    </Card>
+                        <ModalT show={this.state.show} card={this.props.card} onHide={this.handleClose} /></div>)
+                    :
+                    (<Card style={{ width: '22rem', marginBottom: '5px' }} onClick={this.handleShow}>
+                        <Card.Body className="d-flex justify-content-between">
+                            <Card.Title>{this.props.card.name}</Card.Title>
+                            <Button variant="danger"
+                                className='deleteButton danger btn btn-xsm'
+                                onClick={event => this.props.deleteCard(event, this.props.card.id)}>X</Button>
+                        </Card.Body>
+                    </Card>)}
 
             </div>
         );

@@ -33,6 +33,7 @@ class ModalT extends Component {
 
     componentDidMount(prevProps) {
         // console.log(this.props.card.id)
+        // console.log('modal mounted ')
         if (this.props.card.id) {
             fetch(`https://api.trello.com/1/cards/${this.props.card.id}/checklists?checkItems=all&checkItem_fields=name%2CnameData%2Cpos%2Cstate&filter=all&fields=all&key=${this.state.key}&token=${this.state.token}`, {
                 method: 'GET'
@@ -44,6 +45,8 @@ class ModalT extends Component {
                                 checkLists: data
                             })
                         );
+                    console.log('checklists : ',data)
+
                 }).catch(err => console.log(err))
         }
     }

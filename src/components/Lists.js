@@ -83,7 +83,7 @@ class Lists extends Component {
             );
         });
         return (
-            <div>
+            <div className ="allLists">
                 <div className="list d-flex justify-content-start">
                     {allLists}
                     <div className="card addList">
