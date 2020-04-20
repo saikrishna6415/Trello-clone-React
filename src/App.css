@@ -73,15 +73,16 @@ input[type="checkbox"] :checked p.checkItemName {
 .logo {
   height: 40px;
 }
-.allLists{
+.allLists {
   overflow-x: scroll;
-  overflow-y: hidden;
   white-space: nowrap;
+  height: 37rem;
 
+  /* overflow-y: scroll; */
 }
 .list {
   margin: 5px;
-  
+  /* height: 600px; */
 }
 .addList {
   width: 22rem;
