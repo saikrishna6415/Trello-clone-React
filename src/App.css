@@ -82,7 +82,7 @@ input[type="checkbox"] :checked p.checkItemName {
 }
 .list {
   margin: 5px;
-  /* height: 600px; */
+  height: 600px;
 }
 .addList {
   width: 22rem;
