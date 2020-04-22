@@ -106,3 +106,6 @@ input[type="checkbox"] :checked p.checkItemName {
   max-height: 25em;
   font-weight: normal;
 }
+.card{
+  width: 22rem;
+}
