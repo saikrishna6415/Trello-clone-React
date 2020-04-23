@@ -45,7 +45,7 @@ class ModalT extends Component {
                                 checkLists: data
                             })
                         );
-                    console.log('checklists : ',data)
+                    console.log('checklists : ', data)
 
                 }).catch(err => console.log(err))
         }
@@ -124,8 +124,8 @@ class ModalT extends Component {
                     <Modal.Header closeButton>
                         <Modal.Title>{this.props.card.name}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body style={{ overflow: "scroll" }}>
-                        <div className="card addcard d-flex justify-content-center" >
+                    <Modal.Body>
+                        <div className="card addcard d-flex justify-content-center" style={{ width: '29em' }} >
                             <button className="addButton btn btn-primary m-1 w-5"
                                 onClick={this.newCheckListbutton}
                                 style={{ display: newCheckListbutton }}>
