@@ -1,27 +1,21 @@
 import React, { Component } from 'react';
 import List from './List';
 import FormT from './FormT';
-import { fetchLists, addNewList } from '../actions/boardActions';
+import { fetchLists, addNewList, deleteList } from '../actions/boardActions';
 import { connect } from 'react-redux';
 
 class Lists extends Component {
     constructor() {
         super()
         this.state = {
-            // lists: [],
             newListButton: true,
             closeAddForm: false,
-            listName: '',
-            // id: this.props.match.params.id
-            // key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
-            // token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
+            listName: ''
         };
 
         this.addNewList = this.addNewList.bind(this);
-
+        this.deleteList = this.deleteList.bind(this);
     }
-
-
 
     newListButton = () => {
         this.setState(prevState => ({
@@ -35,15 +29,18 @@ class Lists extends Component {
             closeAddForm: !prevState.closeAddForm
         }));
     }
+
     inputState = event => {
         this.setState({
             listName: event.target.value
         });
     };
+
     componentDidMount() {
         const id = this.props.match.params.id;
         this.props.fetchLists(id);
     }
+
     addNewList() {
         const newList = {
             name: this.state.listName,
@@ -54,6 +51,10 @@ class Lists extends Component {
         this.setState({
             listName: ''
         })
+    }
+    
+    deleteList(id) {
+        this.props.deleteList(id);
     }
 
     render() {
@@ -102,4 +103,4 @@ const mapStateToProps = state => ({
     list: state.boards.list
 });
 
-export default connect(mapStateToProps, { fetchLists, addNewList })(Lists);
+export default connect(mapStateToProps, { fetchLists, addNewList, deleteList })(Lists);

@@ -1,4 +1,4 @@
-import { GET_BOARDS, ADD_BOARD, GET_LISTS, ADD_LIST } from './types';
+import { GET_BOARDS, ADD_BOARD, GET_LISTS, ADD_LIST, DELETE_LIST } from './types';
 const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5'
 const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
 
@@ -58,6 +58,25 @@ export const addNewList = list => dispatch => {
             dispatch({
                 type: ADD_LIST,
                 list: list
+            })
+        })
+        .catch(err => console.log(err));
+
+}
+
+export const deleteList = id => dispatch => {
+    fetch(
+        `https://api.trello.com/1/lists/${id}/closed?value=true&key=${key}&token=${token}`,
+        {
+            method: 'PUT'
+        }
+    ).then(response => response.json())
+        .then(list => {
+            console.log('list deleted' ,list)
+            dispatch({
+                type: DELETE_LIST,
+                list: list,
+                listId :list.id
             })
         })
         .catch(err => console.log(err));

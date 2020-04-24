@@ -82,6 +82,7 @@ class List extends Component {
 
 
     render() {
+        console.log(this.props)
         var newCardbutton = this.state.newCardbutton ? 'block' : 'none';
         var closeAddForm = this.state.closeAddForm ? 'block' : 'none'
         var allCards = this.state.cards.map(card => {

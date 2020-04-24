@@ -1,4 +1,4 @@
-import { GET_BOARDS, ADD_BOARD, GET_LISTS, ADD_LIST } from '../actions/types';
+import { GET_BOARDS, ADD_BOARD, GET_LISTS, ADD_LIST, DELETE_LIST } from '../actions/types';
 const initialSatate = {
   boards: [],
   board: {},
@@ -27,6 +27,12 @@ export default function (state = initialSatate, action) {
       return {
         ...state,
         lists: state.lists.concat(action.list
+        )
+      };
+    case DELETE_LIST:
+      return {
+        ...state,
+        lists: state.lists.filter(list => list.id !== action.listId
         )
       };
     default:
