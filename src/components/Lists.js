@@ -1,16 +1,28 @@
 import React, { Component } from 'react';
 import List from './List';
 import FormT from './FormT';
+import { fetchLists, addNewList } from '../actions/boardActions';
+import { connect } from 'react-redux';
 
 class Lists extends Component {
-    state = {
-        lists: [],
-        newListButton: true,
-        closeAddForm: false,
-        listName: '',
-        key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
-        token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
-    };
+    constructor() {
+        super()
+        this.state = {
+            // lists: [],
+            newListButton: true,
+            closeAddForm: false,
+            listName: '',
+            // id: this.props.match.params.id
+            // key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
+            // token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
+        };
+
+        this.addNewList = this.addNewList.bind(this);
+
+    }
+
+
+
     newListButton = () => {
         this.setState(prevState => ({
             newListButton: !prevState.newListButton,
@@ -29,51 +41,26 @@ class Lists extends Component {
         });
     };
     componentDidMount() {
-        //console.log('helee');
-        fetch(`https://api.trello.com/1/boards/${this.props.match.params.id}/lists?key=${this.state.key}&token=${this.state.token}`, {
-            method: 'GET'
+        const id = this.props.match.params.id;
+        this.props.fetchLists(id);
+    }
+    addNewList() {
+        const newList = {
+            name: this.state.listName,
+            boardid: this.props.match.params.id
+        };
+        // console.log('listName :', this.state.listName)
+        this.props.addNewList(newList);
+        this.setState({
+            listName: ''
         })
-            .then(data => {
-                data.json()
-                    .then(data => {
-                        // console.log(data);
-                        this.setState({
-                            lists: data
-                        });
-                    });
-            }).catch(err => console.log(err))
     }
 
-    addNewList = () => {
-        fetch(`https://api.trello.com/1/lists?name=${this.state.listName}&idBoard=${this.props.match.params.id}&pos=bottom&key=${this.state.key}&token=${this.state.token}`, {
-            method: 'POST'
-        })
-            .then(data => {
-                data.json()
-                    .then(data => {
-                        this.setState({
-                            lists: this.state.lists.concat([data]),
-                            listName: ''
-                        });
-                    });
-            }).catch(err => console.log(err))
-    };
-
-    deleteList = id => {
-        fetch(
-            `https://api.trello.com/1/lists/${id}/closed?value=true&key=${this.state.key}&token=${this.state.token}`,
-            {
-                method: 'PUT'
-            }
-        ).then(() => {
-            this.setState({ lists: this.state.lists.filter(list => list.id !== id) });
-        }).catch(err => console.log(err))
-    };
     render() {
         //console.log(this.state.checkLists);
         var newListButton = this.state.newListButton ? 'block' : 'none';
         var closeAddForm = this.state.closeAddForm ? 'block' : 'none'
-        var allLists = this.state.lists.map(list => {
+        var allLists = this.props.lists.map(list => {
             return (
                 <List
                     key={list.id}
@@ -83,7 +70,7 @@ class Lists extends Component {
             );
         });
         return (
-            <div className ="allLists">
+            <div className="allLists">
                 <div className="list d-flex justify-content-start">
                     {allLists}
                     <div className="card addList">
@@ -110,4 +97,9 @@ class Lists extends Component {
     }
 }
 
-export default Lists;
+const mapStateToProps = state => ({
+    lists: state.boards.lists,
+    list: state.boards.list
+});
+
+export default connect(mapStateToProps, { fetchLists, addNewList })(Lists);
