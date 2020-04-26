@@ -49,16 +49,9 @@ class Boards extends Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log('next ', nextProps)
-    if (nextProps.board) {
-      this.props.boards.unshift(nextProps.board);
-    }
-  }
-
   render() {
 
-    console.log(this.props)
+    // console.log(this.props)
     var newBoardbutton = this.state.newBoardbutton ? 'block' : 'none';
     var closeAddForm = this.state.closeAddForm ? 'block' : 'none'
     const allboards = this.props.boards.map(board => (
