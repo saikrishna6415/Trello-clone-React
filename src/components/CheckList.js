@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap'
 import FormT from './FormT'
 import CheckItem from './CheckItem';
+// import { fetchCheckListItems } from '../actions/boardActions';
+import { connect } from 'react-redux';
 // const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
 // const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
 
@@ -9,12 +11,12 @@ class CheckList extends React.Component {
     constructor() {
         super()
         this.state = {
-            checkItems: [],
+            // checkItems: [],
             newCheckListiitembutton: true,
             closeAddForm: false,
             checkItemname: '',
-            key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
-            token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
+            // key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
+            // token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
         }
     }
 
@@ -36,83 +38,86 @@ class CheckList extends React.Component {
         });
     };
     componentDidMount() {
-        fetch(
-            `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems?key=${this.state.key}&token=${this.state.token}`,
-            {
-                method: 'GET'
-            }
-        )
-            .then(data => {
-                data.json()
-                    .then(data =>
-                        this.setState({
-                            checkItems: data
-                        })
-                    );
-            }).catch(err => console.log(err))
+        console.log(this.props.checkList.id)
+        const id = this.props.checkList.id
+        // this.props.fetchCheckListItems(id)
+        // fetch(
+        //     `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems?key=${this.state.key}&token=${this.state.token}`,
+        //     {
+        //         method: 'GET'
+        //     }
+        // )
+        //     .then(data => {
+        //         data.json()
+        //             .then(data =>
+        //                 this.setState({
+        //                     checkItems: data
+        //                 })
+        //             );
+        //     }).catch(err => console.log(err))
     }
 
-    addNewCheckItem = () => {
-        if (this.state.checkItemName !== '') {
-            fetch(
-                `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems?name=${this.state.checkItemName}&pos=bottom&checked=false&key=${this.state.key}&token=${this.state.token}`,
-                {
-                    method: 'POST'
-                }
-            )
-                .then(data => {
-                    data.json()
-                        .then(data =>
-                            this.setState({
-                                checkItems: this.state.checkItems.concat([data]),
-                                checkItemName: ''
-                            })
-                        );
-                }).catch(err => console.log(err))
-        }
-    };
-    deleteCheckItem = id => {
-        fetch(
-            `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems/${id}?key=${this.state.key}&token=${this.state.token}`,
-            {
-                method: 'DELETE'
-            }
-        ).then(() => {
-            this.setState({
-                checkItems: this.state.checkItems.filter(
-                    CheckItem => CheckItem.id !== id
-                )
-            });
-        }).catch(err => console.log(err))
-    };
-    updateCheckItem = (event, checkItem) => {
-        var status = 'incomplete';
-        if (event.target.checked === true) {
-            status = 'complete';
-        }
-        // var checkItemStatus = event.target.checked ? 'complete' : 'incomplete';
-        fetch(
-            `https://api.trello.com/1/cards/${this.props.checkList.idCard}/checkItem/${checkItem.id}?state=${status}&key=${this.state.key}&token=${this.state.token}`,
-            {
-                method: 'PUT'
-            }
-        )
-            .then(data => {
-                data.json()
-                    .then(data => {
-                        var allItem = this.state.checkItems;
-                        allItem[allItem.indexOf(checkItem)].state = data.state;
-                        this.setState({
-                            checkItems: allItem
-                        });
-                    });
-            }).catch(err => console.log(err))
-    };
+    // addNewCheckItem = () => {
+    //     if (this.state.checkItemName !== '') {
+    //         fetch(
+    //             `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems?name=${this.state.checkItemName}&pos=bottom&checked=false&key=${this.state.key}&token=${this.state.token}`,
+    //             {
+    //                 method: 'POST'
+    //             }
+    //         )
+    //             .then(data => {
+    //                 data.json()
+    //                     .then(data =>
+    //                         this.setState({
+    //                             checkItems: this.state.checkItems.concat([data]),
+    //                             checkItemName: ''
+    //                         })
+    //                     );
+    //             }).catch(err => console.log(err))
+    //     }
+    // };
+    // deleteCheckItem = id => {
+    //     fetch(
+    //         `https://api.trello.com/1/checklists/${this.props.checkList.id}/checkItems/${id}?key=${this.state.key}&token=${this.state.token}`,
+    //         {
+    //             method: 'DELETE'
+    //         }
+    //     ).then(() => {
+    //         this.setState({
+    //             checkItems: this.state.checkItems.filter(
+    //                 CheckItem => CheckItem.id !== id
+    //             )
+    //         });
+    //     }).catch(err => console.log(err))
+    // };
+    // updateCheckItem = (event, checkItem) => {
+    //     var status = 'incomplete';
+    //     if (event.target.checked === true) {
+    //         status = 'complete';
+    //     }
+    //     // var checkItemStatus = event.target.checked ? 'complete' : 'incomplete';
+    //     fetch(
+    //         `https://api.trello.com/1/cards/${this.props.checkList.idCard}/checkItem/${checkItem.id}?state=${status}&key=${this.state.key}&token=${this.state.token}`,
+    //         {
+    //             method: 'PUT'
+    //         }
+    //     )
+    //         .then(data => {
+    //             data.json()
+    //                 .then(data => {
+    //                     var allItem = this.state.checkItems;
+    //                     allItem[allItem.indexOf(checkItem)].state = data.state;
+    //                     this.setState({
+    //                         checkItems: allItem
+    //                     });
+    //                 });
+    //         }).catch(err => console.log(err))
+    // };
     render() {
         // console.log(this.props)
         var newCheckListiitembutton = this.state.newCheckListiitembutton ? 'block' : 'none';
         var closeAddForm = this.state.closeAddForm ? 'block' : 'none'
-        let checkItems = this.state.checkItems.map(checkItem => (
+        let checkItems = this.props.checkItems.map(checkItem => (
             <CheckItem
                 key={checkItem.id}
                 checkItem={checkItem}
@@ -155,5 +160,8 @@ class CheckList extends React.Component {
         );
     }
 };
+const mapStateToProps = state => ({
+    checkItems: state.boards.checkItems,
+});
 
-export default CheckList;
+export default connect(mapStateToProps, {  })(CheckList);

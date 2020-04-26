@@ -29,7 +29,7 @@ class CardT extends React.Component {
     }
 
     render() {
-        // console.log(this.props)
+        // console.log('cards compo :', this.props)
         return (
             <div>
                 {this.state.show ?
@@ -48,7 +48,7 @@ class CardT extends React.Component {
                             <Card.Title>{this.props.card.name}</Card.Title>
                             <Button variant="danger"
                                 className='deleteButton danger btn btn-xsm'
-                                onClick={event => this.props.deleteCard(event, this.props.card.id)}>X</Button>
+                                onClick={event => this.props.deleteCard(event, this.props.card.id,this.props.card.idList)}>X</Button>
                         </Card.Body>
                     </Card>)}
 

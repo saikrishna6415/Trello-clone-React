@@ -58,14 +58,14 @@ class Lists extends Component {
     }
 
     render() {
-        //console.log(this.state.checkLists);
+        // console.log(this.props.lists);
         var newListButton = this.state.newListButton ? 'block' : 'none';
         var closeAddForm = this.state.closeAddForm ? 'block' : 'none'
         var allLists = this.props.lists.map(list => {
             return (
                 <List
                     key={list.id}
-                    lists={list}
+                    list={list}
                     deleteList={this.deleteList}
                 />
             );

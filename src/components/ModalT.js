@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
 import CheckList from './CheckList'
 import FormT from './FormT'
+import { connect } from 'react-redux';
+import { fetchCheckList } from '../actions/boardActions';
+
 // const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5';
 // const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
 
@@ -33,22 +36,25 @@ class ModalT extends Component {
 
     componentDidMount(prevProps) {
         // console.log(this.props.card.id)
+        const id = this.props.card.id
+        this.props.fetchCheckList(id)
         // console.log('modal mounted ')
-        if (this.props.card.id) {
-            fetch(`https://api.trello.com/1/cards/${this.props.card.id}/checklists?checkItems=all&checkItem_fields=name%2CnameData%2Cpos%2Cstate&filter=all&fields=all&key=${this.state.key}&token=${this.state.token}`, {
-                method: 'GET'
-            })
-                .then(data => {
-                    data.json()
-                        .then(data =>
-                            this.setState({
-                                checkLists: data
-                            })
-                        );
-                    console.log('checklists : ', data)
+        // if (this.props.card.id) {
+        //     fetch(`https://api.trello.com/1/cards/${this.props.card.id}/checklists?checkItems=all&checkItem_fields=name%2CnameData%2Cpos%2Cstate&filter=all&fields=all&key=${this.state.key}&token=${this.state.token}`, {
+        //         method: 'GET'
+        //     })
+        //         .then(data => {
+        //             data.json()
+        //                 .then(data =>
+        //                     this.setState({
+        //                         checkLists: data
+        //                     })
+        //                 );
+        //             console.log('checklists : ', data)
 
-                }).catch(err => console.log(err))
-        }
+        //         }).catch(err => console.log(err))
+        // }
+
     }
     newCheckListbutton = () => {
         this.setState(prevState => ({
@@ -105,10 +111,11 @@ class ModalT extends Component {
 
 
     render() {
+        console.log(this.props.checkLists)
 
         var newCheckListbutton = this.state.newCheckListbutton ? 'block' : 'none';
         var closeAddForm = this.state.closeAddForm ? 'block' : 'none'
-        let checkLists = this.state.checkLists.map(checkList => (
+        let checkLists = this.props.checkLists.map(checkList => (
             <CheckList
                 key={checkList.id}
                 checkList={checkList}
@@ -149,4 +156,9 @@ class ModalT extends Component {
         )
     }
 }
-export default ModalT;
+const mapStateToProps = state => ({
+    checkLists: state.boards.checkLists
+});
+
+
+export default connect(mapStateToProps, { fetchCheckList })(ModalT);
