@@ -2,7 +2,7 @@ import {
   GET_BOARDS, ADD_BOARD,
   GET_LISTS, ADD_LIST, DELETE_LIST,
   GET_CARDS, ADD_CARD, DELETE_CARD,
-  GET_CHECKLISTS
+  GET_CHECKLISTS, ADD_CHECKLIST, DELETE_CHECKLIST
 } from '../actions/types';
 const initialSatate = {
   boards: [],
@@ -12,6 +12,7 @@ const initialSatate = {
   cards: [],
   card: {},
   checkLists: [],
+  checkList: {},
   checkItems: []
 };
 export default function (state = initialSatate, action) {
@@ -80,6 +81,20 @@ export default function (state = initialSatate, action) {
       return {
         ...state,
         checkLists: action.checklistData
+      };
+    case ADD_CHECKLIST:
+      console.log('adding checklist :', action.checkList)
+      return {
+        ...state,
+        checkLists: state.checkLists.concat(action.checkList
+        )
+      };
+    case DELETE_CHECKLIST:
+      console.log('deleting : ', action.checkListId)
+      return {
+        ...state,
+        checkLists: state.checkLists.filter(checkList => checkList.id !== action.checkListId
+        )
       };
     default:
       return state;

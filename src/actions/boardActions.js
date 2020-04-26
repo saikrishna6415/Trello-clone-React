@@ -2,7 +2,7 @@ import {
     GET_BOARDS, ADD_BOARD,
     GET_LISTS, ADD_LIST, DELETE_LIST,
     GET_CARDS, ADD_CARD, DELETE_CARD,
-    GET_CHECKLISTS,
+    GET_CHECKLISTS, ADD_CHECKLIST, DELETE_CHECKLIST,
     GET_CHECKITEMS
 } from './types';
 const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5'
@@ -155,3 +155,38 @@ export const fetchCheckList = id => dispatch => {
         })
         .catch(err => console.log(err));
 };
+
+export const addNewCheckList = (newCheckList) => dispatch => {
+    if (newCheckList.name !== '') {
+        fetch(`https://api.trello.com/1/cards/${newCheckList.cardId}/checkLists?name=${newCheckList.name}&key=${key}&token=${token}`, {
+            method: 'POST'
+        })
+            .then(response => response.json())
+            .then(checkList => {
+                console.log('added checklist = ', checkList)
+                dispatch({
+                    type: ADD_CHECKLIST,
+                    checkList: checkList,
+                    cardId: newCheckList.cardId
+                })
+            })
+            .catch(err => console.log(err));
+    }
+}
+
+export const deleteCheckList = id => dispatch => {
+    fetch(
+        `https://api.trello.com/1/checkLists/${id}?key=${key}&token=${token}`,
+        {
+            method: 'DELETE'
+        }
+    ).then(response => response.json())
+        .then(checkList => {
+            console.log('checkList deleted', checkList)
+            dispatch({
+                type: DELETE_CHECKLIST,
+                checkList: checkList,
+                checkListId: id
+            })
+        }).catch(err => console.log(err))
+}

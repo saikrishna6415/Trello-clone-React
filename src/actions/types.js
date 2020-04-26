@@ -8,6 +8,8 @@ export const ADD_CARD = 'ADD_CARD'
 export const DELETE_CARD = 'DELETE_CARD'
 export const GET_CHECKLISTS = 'GET_CHECKLISTS'
 export const GET_CHECKITEMS = 'GET_CHECKITEMS'
+export const ADD_CHECKLIST = 'ADD_CHECKLIST'
+export const DELETE_CHECKLIST = 'DELETE_CHECKLIST'
 
 
 
