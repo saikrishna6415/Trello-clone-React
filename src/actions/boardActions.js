@@ -3,7 +3,7 @@ import {
     GET_LISTS, ADD_LIST, DELETE_LIST,
     GET_CARDS, ADD_CARD, DELETE_CARD,
     GET_CHECKLISTS, ADD_CHECKLIST, DELETE_CHECKLIST,
-    GET_CHECKITEMS
+    GET_CHECKITEMS, ADD_CHECKITEM, DELETE_CHECKITEM, UPDATE_CHECKITEM, UPDATE_CHECKITEMSTATUS
 } from './types';
 const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5'
 const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
@@ -103,7 +103,6 @@ export const fetchCards = id => dispatch => {
             })
         })
         .catch(err => console.log(err));
-
 };
 
 
@@ -189,4 +188,101 @@ export const deleteCheckList = id => dispatch => {
                 checkListId: id
             })
         }).catch(err => console.log(err))
+}
+
+export const fetchCheckListItems = id => dispatch => {
+    fetch(
+        `https://api.trello.com/1/checklists/${id}/checkItems?key=${key}&token=${token}`,
+        {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(checkItems => {
+            console.log("checkItems ", checkItems)
+            dispatch({
+                type: GET_CHECKITEMS,
+                checkItemsData: checkItems,
+                checkListId: id
+            })
+        })
+        .catch(err => console.log(err));
+}
+
+export const addCheckItem = checkItemsData => dispatch => {
+    console.log('sajsn', checkItemsData)
+    if (checkItemsData.name !== '') {
+        fetch(
+            `https://api.trello.com/1/checklists/${checkItemsData.checkListId}/checkItems?name=${checkItemsData.name}&pos=bottom&checked=false&key=${key}&token=${token}`,
+            {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(checkItem => {
+                console.log('added checkItem = ', checkItem)
+                dispatch({
+                    type: ADD_CHECKITEM,
+                    checkItem: checkItem,
+                    checkListId: checkItemsData.checkListId
+                })
+            })
+            .catch(err => console.log(err));
+    }
+}
+
+export const deleteCheckItem = (id, checkListId) => dispatch => {
+    fetch(
+        `https://api.trello.com/1/checklists/${checkListId}/checkItems/${id}?key=${key}&token=${token}`,
+        {
+            method: 'DELETE'
+        }
+    ).then(response => response.json())
+        .then(checkItem => {
+            console.log('checkItem deleted', checkItem)
+            dispatch({
+                type: DELETE_CHECKITEM,
+                checkListId: checkListId,
+                checkItemId: id
+            })
+        })
+        .catch(err => console.log(err));
+}
+
+export const updateCheckItemName = checkItemData => dispatch => {
+    fetch(`https://api.trello.com/1/cards/${checkItemData.card}/checkItem/${checkItemData.checkItemId}?key=${key}&token=${token}&name=${checkItemData.checkItemName}`, {
+        method: "PUT",
+    })
+        .then(response => response.json())
+        .then(checkItem => {
+            console.log('checkItem updated', checkItem)
+            dispatch({
+                type: UPDATE_CHECKITEM,
+                cardId: checkItemData.card,
+                // checkItemId: checkItemData.checkItemId
+                itemName: checkItemData.checkItemName
+            })
+        })
+        .catch(err => console.log(err));
+}
+export const updateCheckItemStatus = checkItemData => dispatch => {
+    console.log(checkItemData)
+    console.log('ss: ', checkItemData.state)
+    fetch(
+        `https://api.trello.com/1/cards/${checkItemData.cardId}/checkItem/${checkItemData.checkItemId}?state=${checkItemData.state}&key=${key}&token=${token}`,
+        {
+            method: 'PUT'
+        }
+    ).then(response => response.json())
+        .then(checkItem => {
+            console.log('checkItem status updated', checkItem)
+            dispatch({
+                type: UPDATE_CHECKITEMSTATUS,
+                cardId: checkItemData.cardId,
+                checkListId : checkItemData.checkListId,
+                checkItemId: checkItemData.checkItemId,
+                status: checkItemData.state
+            })
+        })
+        .catch(err => console.log(err));
+
+
 }

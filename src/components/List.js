@@ -33,7 +33,7 @@ class List extends Component {
         const id = this.props.list.id;
         this.props.fetchCards(id)
     }
-    
+
 
     addNewCard() {
         const newCard = {
@@ -85,7 +85,7 @@ class List extends Component {
         })
         // console.log(cardsData)
         let data = cardsData.map(elem => Object.values(elem[1])[0])
-        console.log('cardData1 = ', data)
+        // console.log('cardData1 = ', data)
 
 
         var newCardbutton = this.state.newCardbutton ? 'block' : 'none';
@@ -93,19 +93,16 @@ class List extends Component {
         // var allcardsData;
         var allCards = data.map(card => {
             // card = Array.from(props.data);
-            if (card.length > 0) {
-                return card.map(cardnew => {
-                    console.log('thisisi original : ', cardnew)
-                    return (
-                        <CardT key={cardnew.id}
-                            card={cardnew}
-                            name={cardnew.name}
-                            deleteCard={this.deleteCard}
-                        // onClick={this.props.showModal}
-                        />
-                    );
-                })
-            }
+            return card.map(cardnew => {
+                return (
+                    <CardT key={cardnew.id}
+                        card={cardnew}
+                        name={cardnew.name}
+                        deleteCard={this.deleteCard}
+                    // onClick={this.props.showModal}
+                    />
+                );
+            })
         });
         // var allcardsData = { cards: this.props.cards }
         // console.log(allcardsData)
