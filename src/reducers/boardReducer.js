@@ -95,9 +95,9 @@ export default function (state = initialSatate, action) {
     case GET_CHECKITEMS:
       return {
         ...state,
-        checkItems: state.checkItems.concat({
+        checkItems: [...state.checkItems, {
           [`checkList-${action.checkListId}`]: action.checkItemsData
-        })
+        }]
       };
     case ADD_CHECKITEM:
       console.log('adding Checktem :', action.checkListId)
@@ -138,14 +138,14 @@ export default function (state = initialSatate, action) {
       };
     case UPDATE_CHECKITEMSTATUS:
       console.log('updating checkItem status ', action)
-      console.log('checikitemid:', action.checkListId)
+      // console.log('checikitemid:', action.checkListId)
       return {
         ...state,
         checkItems: state.checkItems.map(checkItem => {
           console.log(checkItem)
           checkItem[`checkList-${action.checkListId}`] = checkItem[`checkList-${action.checkListId}`].map(chktem => {
             if (chktem.id === action.checkItemId) {
-              chktem.state = action.state
+              chktem.state = action.status
             }
             return chktem
           })

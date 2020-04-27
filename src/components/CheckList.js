@@ -59,6 +59,7 @@ class CheckList extends React.Component {
 
     }
     updateCheckItem(event, checkItem) {
+
         var status;
         if (event.target.checked === true) {
             status = 'complete';
@@ -66,7 +67,7 @@ class CheckList extends React.Component {
             status = 'incomplete'
         }
         const checkItemsData = {
-            checkListId : this.props.checkList.id,
+            checkListId: this.props.checkList.id,
             cardId: this.props.checkList.idCard,
             checkItemId: checkItem.id,
             state: status

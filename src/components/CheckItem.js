@@ -6,7 +6,7 @@ class CheckItem extends Component {
     state = {
         checkItemName: this.props.checkItem.name,
         updatingCheckItem: false,
-        checked: true
+        // checked: true
     };
     handleForm = () => {
         const checkItemData = {

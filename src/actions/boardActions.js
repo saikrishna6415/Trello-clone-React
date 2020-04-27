@@ -209,7 +209,7 @@ export const fetchCheckListItems = id => dispatch => {
 }
 
 export const addCheckItem = checkItemsData => dispatch => {
-    console.log('sajsn', checkItemsData)
+    // console.log('sajsn', checkItemsData)
     if (checkItemsData.name !== '') {
         fetch(
             `https://api.trello.com/1/checklists/${checkItemsData.checkListId}/checkItems?name=${checkItemsData.name}&pos=bottom&checked=false&key=${key}&token=${token}`,
