@@ -33,14 +33,16 @@ class ModalT extends Component {
         };
 
         this.props.addNewCheckList(NewCheckList);
-        console.log(NewCheckList)
+        // console.log(NewCheckList)
         this.setState({
             checkListName: ''
         })
+        this.newCheckListbutton()
+
     }
 
     deleteCheckList(event, id) {
-        console.log(id)
+        // console.log(id)
         this.props.deleteCheckList(id)
     }
     newCheckListbutton = () => {
@@ -63,7 +65,7 @@ class ModalT extends Component {
 
 
     render() {
-        console.log(this.props.checkLists)
+        // console.log(this.props.checkLists)
 
         var newCheckListbutton = this.state.newCheckListbutton ? 'block' : 'none';
         var closeAddForm = this.state.closeAddForm ? 'block' : 'none'

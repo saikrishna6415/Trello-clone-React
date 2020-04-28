@@ -51,6 +51,7 @@ class Lists extends Component {
         this.setState({
             listName: ''
         })
+        this.newListButton()
     }
     
     deleteList(id) {

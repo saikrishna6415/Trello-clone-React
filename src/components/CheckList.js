@@ -3,7 +3,7 @@ import { Card, Button } from 'react-bootstrap'
 import FormT from './FormT'
 import CheckItem from './CheckItem';
 import { connect } from 'react-redux';
-import { fetchCheckListItems, addCheckItem, deleteCheckItem, updateCheckItemStatus } from '../actions/boardActions';
+import { fetchCheckListItems, addCheckItem, deleteCheckItem, updateCheckItemStatus, clearCheckItems } from '../actions/boardActions';
 
 
 class CheckList extends React.Component {
@@ -37,7 +37,8 @@ class CheckList extends React.Component {
         });
     };
     componentDidMount() {
-        console.log(this.props.checkList.id)
+        console.log('mounting checkList component')
+        // console.log(this.props.checkList.id)
         const id = this.props.checkList.id
         this.props.fetchCheckListItems(id)
     }
@@ -52,6 +53,7 @@ class CheckList extends React.Component {
         this.setState({
             checkItemName: ''
         })
+        this.newCheckListiitembutton()
     }
 
     deleteCheckItem(id, checkListId) {
@@ -72,11 +74,16 @@ class CheckList extends React.Component {
             checkItemId: checkItem.id,
             state: status
         }
-        console.log(checkItemsData)
+        // console.log(checkItemsData)
         this.props.updateCheckItemStatus(checkItemsData)
     };
+
+    componentWillUnmount() {
+        console.log('checklist component unmounting')
+        this.props.clearCheckItems(this.props.checkList.id)
+    }
     render() {
-        console.log(this.props.checkItems)
+        // console.log(this.props.checkItems)
         var checkItemsData = []
         checkItemsData = Object.entries(this.props.checkItems).filter(checkList => {
             var keys = Object.keys(checkList[1]);
@@ -145,4 +152,10 @@ const mapStateToProps = state => ({
     checkItems: state.boards.checkItems,
 });
 
-export default connect(mapStateToProps, { fetchCheckListItems, addCheckItem, deleteCheckItem, updateCheckItemStatus })(CheckList);
+export default connect(mapStateToProps, {
+    fetchCheckListItems,
+    addCheckItem,
+    deleteCheckItem,
+    updateCheckItemStatus,
+    clearCheckItems
+})(CheckList);

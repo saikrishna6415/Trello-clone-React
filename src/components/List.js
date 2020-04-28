@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import CardT from './CardT'
 import FormT from './FormT';
 import { connect } from 'react-redux';
-import { fetchCards, addNewCard, deleteCard } from '../actions/boardActions';
+import { fetchCards, addNewCard, deleteCard, clearCards } from '../actions/boardActions';
 
 
 class List extends Component {
@@ -29,6 +29,7 @@ class List extends Component {
         console.log(error, errorInfo);
     }
     componentDidMount() {
+        console.log('mounting list component')
         // console.log(this.props.list)
         const id = this.props.list.id;
         this.props.fetchCards(id)
@@ -42,15 +43,16 @@ class List extends Component {
         };
 
         this.props.addNewCard(newCard);
-        console.log(newCard)
+        // console.log(newCard)
         this.setState({
             cardName: ''
         })
+        this.newCardbutton()
     }
     deleteCard(event, id, idList) {
         event.stopPropagation()
         this.props.deleteCard(id, idList);
-        console.log(id)
+        // console.log(id)
     }
 
     newCardbutton = () => {
@@ -70,6 +72,11 @@ class List extends Component {
             cardName: event.target.value
         });
     };
+    componentWillUnmount() {
+        console.log('unmounting list component')
+        const id = this.props.list.id;
+        this.props.clearCards(id);
+    }
     render() {
         // console.log(this.props.cards)
         var cardsData = []
@@ -151,8 +158,7 @@ class List extends Component {
 }
 const mapStateToProps = state => ({
     cards: state.boards.cards,
-    card: state.boards.card
-
 });
 
-export default connect(mapStateToProps, { fetchCards, addNewCard, deleteCard })(List);
+
+export default connect(mapStateToProps, { fetchCards, addNewCard, deleteCard, clearCards })(List);

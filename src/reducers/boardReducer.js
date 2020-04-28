@@ -3,7 +3,8 @@ import {
   GET_LISTS, ADD_LIST, DELETE_LIST,
   GET_CARDS, ADD_CARD, DELETE_CARD,
   GET_CHECKLISTS, ADD_CHECKLIST, DELETE_CHECKLIST,
-  GET_CHECKITEMS, ADD_CHECKITEM, DELETE_CHECKITEM, UPDATE_CHECKITEM, UPDATE_CHECKITEMSTATUS
+  GET_CHECKITEMS, ADD_CHECKITEM, DELETE_CHECKITEM, UPDATE_CHECKITEM, UPDATE_CHECKITEMSTATUS,
+  CLEAR_CARDS, CLEAR_CHECKITEMS
 } from '../actions/types';
 const initialSatate = {
   boards: [],
@@ -11,7 +12,9 @@ const initialSatate = {
   cards: [],
   checkLists: [],
   checkItems: [],
-  checkItemSt: {}
+  checkItemSt: {},
+  initialCheckItems: [],
+  initialCards :[]
 };
 export default function (state = initialSatate, action) {
   switch (action.type) {
@@ -51,7 +54,7 @@ export default function (state = initialSatate, action) {
         })
       }
     case ADD_CARD:
-      console.log('adding card :', action.card)
+      // console.log('adding card :', action.card)
       return {
         ...state,
         cards: state.cards.concat({
@@ -59,8 +62,8 @@ export default function (state = initialSatate, action) {
         })
       };
     case DELETE_CARD:
-      console.log('deleting card ')
-      console.log(action.cardId)
+      // console.log('deleting card ')
+      // console.log(action.cardId)
       return {
         ...state,
         cards: state.cards.filter(card => {
@@ -79,14 +82,14 @@ export default function (state = initialSatate, action) {
         checkLists: action.checklistData
       };
     case ADD_CHECKLIST:
-      console.log('adding checklist :', action.checkList)
+      // console.log('adding checklist :', action.checkList)
       return {
         ...state,
         checkLists: state.checkLists.concat(action.checkList
         )
       };
     case DELETE_CHECKLIST:
-      console.log('deleting : ', action.checkListId)
+      // console.log('deleting : ', action.checkListId)
       return {
         ...state,
         checkLists: state.checkLists.filter(checkList => checkList.id !== action.checkListId
@@ -95,12 +98,12 @@ export default function (state = initialSatate, action) {
     case GET_CHECKITEMS:
       return {
         ...state,
-        checkItems: [...state.checkItems, {
+        checkItems: state.checkItems.concat({
           [`checkList-${action.checkListId}`]: action.checkItemsData
-        }]
+        })
       };
     case ADD_CHECKITEM:
-      console.log('adding Checktem :', action.checkListId)
+      // console.log('adding Checktem :', action.checkListId)
       return {
         ...state,
         checkItems: state.checkItems.concat({
@@ -108,8 +111,8 @@ export default function (state = initialSatate, action) {
         })
       };
     case DELETE_CHECKITEM:
-      console.log('deleting checkItem ')
-      console.log(action.checkItemId)
+      // console.log('deleting checkItem ')
+      // console.log(action.checkItemId)
       return {
         ...state,
         checkItems: state.checkItems.filter(checkItem => {
@@ -122,12 +125,12 @@ export default function (state = initialSatate, action) {
         })
       };
     case UPDATE_CHECKITEM:
-      console.log('updating checkItem ', action)
-      console.log('checikitemid:', action.cardId)
+      // console.log('updating checkItem ', action)
+      // console.log('checikitemid:', action.cardId)
       return {
         ...state,
         checkItems: state.checkItems.map(checkItem => {
-          console.log(checkItem)
+          // console.log(checkItem)
           if (checkItem[`checkList-${action.cardId}`]) {
             checkItem[`checkList-${action.cardId}`] = checkItem[`checkList-${action.cardId}`].map(chktem => chktem.name = action.itemName)
             // console.log('to update :', checkItem[`checkList-${action.cardId}`])
@@ -137,12 +140,12 @@ export default function (state = initialSatate, action) {
         })
       };
     case UPDATE_CHECKITEMSTATUS:
-      console.log('updating checkItem status ', action)
+      // console.log('updating checkItem status ', action)
       // console.log('checikitemid:', action.checkListId)
       return {
         ...state,
         checkItems: state.checkItems.map(checkItem => {
-          console.log(checkItem)
+          // console.log(checkItem)
           checkItem[`checkList-${action.checkListId}`] = checkItem[`checkList-${action.checkListId}`].map(chktem => {
             if (chktem.id === action.checkItemId) {
               chktem.state = action.status
@@ -151,6 +154,16 @@ export default function (state = initialSatate, action) {
           })
           return checkItem
         }),
+      };
+    case CLEAR_CHECKITEMS:
+      return {
+        ...state,
+        checkItems: state.initialCheckItems
+      };
+      case CLEAR_CARDS:
+      return {
+        ...state,
+        cards: state.initialCards
       };
     default:
       return state;

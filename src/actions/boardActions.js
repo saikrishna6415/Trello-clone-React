@@ -3,7 +3,8 @@ import {
     GET_LISTS, ADD_LIST, DELETE_LIST,
     GET_CARDS, ADD_CARD, DELETE_CARD,
     GET_CHECKLISTS, ADD_CHECKLIST, DELETE_CHECKLIST,
-    GET_CHECKITEMS, ADD_CHECKITEM, DELETE_CHECKITEM, UPDATE_CHECKITEM, UPDATE_CHECKITEMSTATUS
+    GET_CHECKITEMS, ADD_CHECKITEM, DELETE_CHECKITEM, UPDATE_CHECKITEM, UPDATE_CHECKITEMSTATUS,
+    CLEAR_CARDS, CLEAR_CHECKITEMS
 } from './types';
 const key = 'ffe39d279ee0a46d632ff7b9e7ac02b5'
 const token = '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
@@ -113,7 +114,7 @@ export const addNewCard = (newCard) => dispatch => {
         })
             .then(response => response.json())
             .then(card => {
-                console.log('added card = ', card)
+                // console.log('added card = ', card)
                 dispatch({
                     type: ADD_CARD,
                     card: card,
@@ -129,7 +130,7 @@ export const deleteCard = (id, idList) => dispatch => {
         method: 'DELETE'
     }).then(response => response.json())
         .then(card => {
-            console.log('card deleted', card)
+            // console.log('card deleted', card)
             dispatch({
                 type: DELETE_CARD,
                 listId: idList,
@@ -162,7 +163,7 @@ export const addNewCheckList = (newCheckList) => dispatch => {
         })
             .then(response => response.json())
             .then(checkList => {
-                console.log('added checklist = ', checkList)
+                // console.log('added checklist = ', checkList)
                 dispatch({
                     type: ADD_CHECKLIST,
                     checkList: checkList,
@@ -181,7 +182,7 @@ export const deleteCheckList = id => dispatch => {
         }
     ).then(response => response.json())
         .then(checkList => {
-            console.log('checkList deleted', checkList)
+            // console.log('checkList deleted', checkList)
             dispatch({
                 type: DELETE_CHECKLIST,
                 checkList: checkList,
@@ -198,7 +199,7 @@ export const fetchCheckListItems = id => dispatch => {
         })
         .then(response => response.json())
         .then(checkItems => {
-            console.log("checkItems ", checkItems)
+            // console.log("checkItems ", checkItems)
             dispatch({
                 type: GET_CHECKITEMS,
                 checkItemsData: checkItems,
@@ -218,7 +219,7 @@ export const addCheckItem = checkItemsData => dispatch => {
             })
             .then(response => response.json())
             .then(checkItem => {
-                console.log('added checkItem = ', checkItem)
+                // console.log('added checkItem = ', checkItem)
                 dispatch({
                     type: ADD_CHECKITEM,
                     checkItem: checkItem,
@@ -237,7 +238,7 @@ export const deleteCheckItem = (id, checkListId) => dispatch => {
         }
     ).then(response => response.json())
         .then(checkItem => {
-            console.log('checkItem deleted', checkItem)
+            // console.log('checkItem deleted', checkItem)
             dispatch({
                 type: DELETE_CHECKITEM,
                 checkListId: checkListId,
@@ -253,7 +254,7 @@ export const updateCheckItemName = checkItemData => dispatch => {
     })
         .then(response => response.json())
         .then(checkItem => {
-            console.log('checkItem updated', checkItem)
+            // console.log('checkItem updated', checkItem)
             dispatch({
                 type: UPDATE_CHECKITEM,
                 cardId: checkItemData.card,
@@ -264,8 +265,8 @@ export const updateCheckItemName = checkItemData => dispatch => {
         .catch(err => console.log(err));
 }
 export const updateCheckItemStatus = checkItemData => dispatch => {
-    console.log(checkItemData)
-    console.log('ss: ', checkItemData.state)
+    // console.log(checkItemData)
+    // console.log('ss: ', checkItemData.state)
     fetch(
         `https://api.trello.com/1/cards/${checkItemData.cardId}/checkItem/${checkItemData.checkItemId}?state=${checkItemData.state}&key=${key}&token=${token}`,
         {
@@ -273,16 +274,28 @@ export const updateCheckItemStatus = checkItemData => dispatch => {
         }
     ).then(response => response.json())
         .then(checkItem => {
-            console.log('checkItem status updated', checkItem)
+            // console.log('checkItem status updated', checkItem)
             dispatch({
                 type: UPDATE_CHECKITEMSTATUS,
                 cardId: checkItemData.cardId,
-                checkListId : checkItemData.checkListId,
+                checkListId: checkItemData.checkListId,
                 checkItemId: checkItemData.checkItemId,
                 status: checkItemData.state
             })
         })
         .catch(err => console.log(err));
+}
 
+export const clearCards = (id) => dispatch => {
+    return dispatch({
+        type: CLEAR_CARDS,
+        listId: id
+    })
+}
 
+export const clearCheckItems = (id) => dispatch => {
+    return dispatch({
+        type: CLEAR_CHECKITEMS,
+        checkListId: id
+    })
 }
