@@ -21,9 +21,12 @@ class ModalT extends Component {
     }
 
     componentDidMount() {
-        // console.log(this.props.card.id)
-        const id = this.props.card.id
-        this.props.fetchCheckList(id)
+        if (!this.props.checkLists.length) {
+            // console.log(this.props.card.id)
+            const id = this.props.card.id
+            this.props.fetchCheckList(id)
+        }
+
     }
 
     addNewCheckLists() {
@@ -43,7 +46,7 @@ class ModalT extends Component {
 
     deleteCheckList(event, id) {
         // console.log(id)
-        this.props.deleteCheckList(id)
+        this.props.deleteCheckList(id, this.props.card.id)
     }
     newCheckListbutton = () => {
         this.setState(prevState => ({
@@ -65,19 +68,36 @@ class ModalT extends Component {
 
 
     render() {
-        // console.log(this.props.checkLists)
+        console.log(this.props.checkLists)
+        var checkListData = []
+        checkListData = Object.entries(this.props.checkLists).filter(checkList => {
+            var keys = Object.keys(checkList[1]);
+            var values = Object.values(checkList[1]);
+            // console.log(keys)
+            // console.log(values)
+            if (keys[0] === `checkList-${this.props.card.id}`) {
+                // console.log("values = ", values)
+                return values[0]
+            }
+        })
+        // console.log(checkListData)
+        let data = checkListData.map(elem => Object.values(elem[1])[0])
 
         var newCheckListbutton = this.state.newCheckListbutton ? 'block' : 'none';
         var closeAddForm = this.state.closeAddForm ? 'block' : 'none'
-        let checkLists = this.props.checkLists.map(checkList => (
-            <CheckList
-                key={checkList.id}
-                checkList={checkList}
-                deleteCheckList={this.deleteCheckList}
-                card={this.props.card.id}
-            />
-        ));
-
+        var allCheckLists = data.map(card => {
+            return card.map(checkList => {
+                console.log(checkList)
+                return (
+                    <CheckList
+                        key={checkList.id}
+                        checkList={checkList}
+                        deleteCheckList={this.deleteCheckList}
+                        card={this.props.card.id}
+                    />
+                );
+            })
+        });
         return (
 
             <div>
@@ -102,7 +122,7 @@ class ModalT extends Component {
                             placeholder="Enter Checklist Name"
                             button="Add CheckList"
                         />
-                        {checkLists}
+                        {allCheckLists}
                     </Modal.Body>
                 </Modal>
 

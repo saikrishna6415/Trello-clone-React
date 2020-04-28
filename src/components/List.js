@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import CardT from './CardT'
 import FormT from './FormT';
 import { connect } from 'react-redux';
-import { fetchCards, addNewCard, deleteCard, clearCards } from '../actions/boardActions';
+import { fetchCards, addNewCard, deleteCard } from '../actions/boardActions';
 
 
 class List extends Component {
@@ -75,7 +75,7 @@ class List extends Component {
     componentWillUnmount() {
         console.log('unmounting list component')
         const id = this.props.list.id;
-        this.props.clearCards(id);
+        // this.props.clearCards(id);
     }
     render() {
         // console.log(this.props.cards)
@@ -161,4 +161,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps, { fetchCards, addNewCard, deleteCard, clearCards })(List);
+export default connect(mapStateToProps, { fetchCards, addNewCard, deleteCard })(List);

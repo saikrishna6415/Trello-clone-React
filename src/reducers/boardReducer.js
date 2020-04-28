@@ -79,21 +79,30 @@ export default function (state = initialSatate, action) {
     case GET_CHECKLISTS:
       return {
         ...state,
-        checkLists: action.checklistData
+        checkLists: state.checkLists.concat({
+          [`checkList-${action.cardId}`]: action.checklistData
+        })
       };
     case ADD_CHECKLIST:
       // console.log('adding checklist :', action.checkList)
       return {
         ...state,
-        checkLists: state.checkLists.concat(action.checkList
-        )
+        checkLists: state.checkLists.concat({
+          [`checkList-${action.cardId}`]: [action.checkList]
+        })
       };
     case DELETE_CHECKLIST:
       // console.log('deleting : ', action.checkListId)
       return {
         ...state,
-        checkLists: state.checkLists.filter(checkList => checkList.id !== action.checkListId
-        )
+        checkLists: state.checkLists.filter(checkList => {
+          console.log(checkList[`checkList-${action.cardId}`])
+          if (checkList[`checkList-${action.cardId}`]) {
+            checkList[`checkList-${action.cardId}`] = checkList[`checkList-${action.cardId}`].filter(c => c.id !== action.checkListId)
+            return checkList[`checkList-${action.cardId}`]
+          }
+          return checkList
+        })
       };
     case GET_CHECKITEMS:
       return {
@@ -116,6 +125,7 @@ export default function (state = initialSatate, action) {
       return {
         ...state,
         checkItems: state.checkItems.filter(checkItem => {
+          // console.log(checkItem)
           if (checkItem[`checkList-${action.checkListId}`]) {
             checkItem[`checkList-${action.checkListId}`] = checkItem[`checkList-${action.checkListId}`].filter(chktem => chktem.id !== action.checkItemId)
             // console.log('to delete :', checkItem[`checkList-${action.checkListId}`])
@@ -129,13 +139,22 @@ export default function (state = initialSatate, action) {
       // console.log('checikitemid:', action.cardId)
       return {
         ...state,
-        checkItems: state.checkItems.map(checkItem => {
+        checkItems: state.checkItems.filter(checkItem => {
           // console.log(checkItem)
-          if (checkItem[`checkList-${action.cardId}`]) {
-            checkItem[`checkList-${action.cardId}`] = checkItem[`checkList-${action.cardId}`].map(chktem => chktem.name = action.itemName)
-            // console.log('to update :', checkItem[`checkList-${action.cardId}`])
-            return checkItem[`checkList-${action.cardId}`]
+          if (checkItem[`checkList-${action.checkListId}`]) {
+            // console.log(checkItem[`checkList-${action.checkListId}`])
+            return checkItem[`checkList-${action.checkListId}`] = checkItem[`checkList-${action.checkListId}`].filter(chktem => {
+              if (chktem.id === action.checkItemId) {
+                // console.log('updating')
+                return chktem.name = action.itemName
+              }
+              return chktem
+            })
+            // console.log('to update :', checkItem[`checkList-${action.checkListId}`])
+            //  checkItem[`checkList-${action.checkListId}`]
           }
+          // console.log('updating')
+
           return checkItem
         })
       };
@@ -144,39 +163,58 @@ export default function (state = initialSatate, action) {
       // console.log('checikitemid:', action.checkListId)
       return {
         ...state,
-        checkItems: state.checkItems.map(checkItem => {
-          // console.log(checkItem)
-          checkItem[`checkList-${action.checkListId}`] = checkItem[`checkList-${action.checkListId}`].map(chktem => {
-            if (chktem.id === action.checkItemId) {
-              chktem.state = action.status
-            }
-            return chktem
-          })
-          return checkItem
-        }),
-      };
-    case CLEAR_CHECKITEMS:
-      return {
-        ...state,
         checkItems: state.checkItems.filter(checkItem => {
+          // console.log(checkItem)
           if (checkItem[`checkList-${action.checkListId}`]) {
-            checkItem[`checkList-${action.checkListId}`] = []
-            return checkItem[`checkList-${action.checkListId}`]
+            // console.log(checkItem[`checkList-${action.checkListId}`])
+            return checkItem[`checkList-${action.checkListId}`] = checkItem[`checkList-${action.checkListId}`].filter(chktem => {
+              if (chktem.id === action.checkItemId) {
+                // console.log('updating')
+                return chktem.state = action.status
+              }
+              return chktem
+            })
+            // console.log('to update :', checkItem[`checkList-${action.checkListId}`])
+            //  checkItem[`checkList-${action.checkListId}`]
           }
+          // console.log('updating')
+
           return checkItem
         })
       };
-    case CLEAR_CARDS:
-      return {
-        ...state,
-        cards: state.cards.filter(card => {
-          if (card[`card-${action.listId}`]) {
-            card[`card-${action.listId}`] = []
-            return card[`card-${action.listId}`]
-          }
-          return card
-        })
-      };
+    // case CLEAR_CHECKITEMS:
+    //   return {
+    //     ...state,
+    //     checkItems: state.checkItems.filter(checkItem => {
+    //       // console.log(checkItem)
+    //       if (checkItem[`checkList-${action.checkListId}`]) {
+    //         console.log(checkItem[`checkList-${action.checkListId}`])
+    //         return checkItem[`checkList-${action.checkListId}`] = checkItem[`checkList-${action.checkListId}`].filter(chktem => {
+    //           if (chktem.id === action.checkItemId) {
+    //             console.log('updating')
+    //             return chktem.state = action.status
+    //           }
+    //           return chktem
+    //         })
+    //         // console.log('to update :', checkItem[`checkList-${action.checkListId}`])
+    //         //  checkItem[`checkList-${action.checkListId}`]
+    //       }
+    //       console.log('updating')
+
+    //       return checkItem
+    //     })
+    //   };
+    // case CLEAR_CARDS:
+    //   return {
+    //     ...state,
+    //     cards: state.cards.filter(card => {
+    //       if (card[`card-${action.listId}`]) {
+    //         card[`card-${action.listId}`] = []
+    //         return card[`card-${action.listId}`]
+    //       }
+    //       return card
+    //     })
+    //   };
     default:
       return state;
   }

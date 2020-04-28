@@ -10,9 +10,10 @@ class CheckItem extends Component {
     };
     handleForm = () => {
         const checkItemData = {
-            card: this.props.card,
+            card: this.props.checkList.idCard,
             checkItemId: this.props.checkItem.id,
-            checkItemName: this.state.checkItemName
+            checkItemName: this.state.checkItemName,
+            checkListId: this.props.checkList.id
 
         }
         this.props.updateCheckItemName(checkItemData)

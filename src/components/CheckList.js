@@ -3,7 +3,7 @@ import { Card, Button } from 'react-bootstrap'
 import FormT from './FormT'
 import CheckItem from './CheckItem';
 import { connect } from 'react-redux';
-import { fetchCheckListItems, addCheckItem, deleteCheckItem, updateCheckItemStatus, clearCheckItems } from '../actions/boardActions';
+import { fetchCheckListItems, addCheckItem, deleteCheckItem, updateCheckItemStatus } from '../actions/boardActions';
 
 
 class CheckList extends React.Component {
@@ -37,10 +37,14 @@ class CheckList extends React.Component {
         });
     };
     componentDidMount() {
-        console.log('mounting checkList component')
-        // console.log(this.props.checkList.id)
-        const id = this.props.checkList.id
-        this.props.fetchCheckListItems(id)
+        if (!this.props.checkItems.length) {
+            console.log('mounting checkList component')
+            // console.log(this.props.checkList.id)
+            const id = this.props.checkList.id
+            this.props.fetchCheckListItems(id)
+
+        }
+
     }
 
     addNewCheckItem() {
@@ -80,7 +84,7 @@ class CheckList extends React.Component {
 
     componentWillUnmount() {
         console.log('checklist component unmounting')
-        this.props.clearCheckItems(this.props.checkList.id)
+        // this.props.clearCheckItems(this.props.checkList.id)
     }
     render() {
         // console.log(this.props.checkItems)
@@ -109,7 +113,7 @@ class CheckList extends React.Component {
                         checkItem={checkItemN}
                         deleteCheckItem={this.deleteCheckItem}
                         updateCheckItem={this.updateCheckItem}
-                        card={this.props.checkList.idCard}
+                        checkList={this.props.checkList}
                     />
                 );
             })
@@ -157,5 +161,5 @@ export default connect(mapStateToProps, {
     addCheckItem,
     deleteCheckItem,
     updateCheckItemStatus,
-    clearCheckItems
+    
 })(CheckList);
