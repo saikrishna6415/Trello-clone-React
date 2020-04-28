@@ -14,7 +14,7 @@ const initialSatate = {
   checkItems: [],
   checkItemSt: {},
   initialCheckItems: [],
-  initialCards :[]
+  initialCards: []
 };
 export default function (state = initialSatate, action) {
   switch (action.type) {
@@ -158,12 +158,24 @@ export default function (state = initialSatate, action) {
     case CLEAR_CHECKITEMS:
       return {
         ...state,
-        checkItems: state.initialCheckItems
+        checkItems: state.checkItems.filter(checkItem => {
+          if (checkItem[`checkList-${action.checkListId}`]) {
+            checkItem[`checkList-${action.checkListId}`] = []
+            return checkItem[`checkList-${action.checkListId}`]
+          }
+          return checkItem
+        })
       };
-      case CLEAR_CARDS:
+    case CLEAR_CARDS:
       return {
         ...state,
-        cards: state.initialCards
+        cards: state.cards.filter(card => {
+          if (card[`card-${action.listId}`]) {
+            card[`card-${action.listId}`] = []
+            return card[`card-${action.listId}`]
+          }
+          return card
+        })
       };
     default:
       return state;
