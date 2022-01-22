@@ -2,28 +2,21 @@ import React, { Component } from 'react';
 import Board from './Board';
 import FormT from './FormT';
 
+import { connect } from 'react-redux';
+import { fetchBoards, addNewBoard } from '../actions/boardActions';
+
 
 class Boards extends Component {
   constructor() {
     super()
     this.state = {
-      boards: [],
-      key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
-      token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d',
       boardName: '',
       newBoardbutton: true,
       closeAddForm: false
     }
-  }
-  // state = {
-  //   boards: [],
-  //   key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
-  //   token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d',
-  //   boardName: '',
-  //   newBoardbutton: true,
-  //   closeAddForm: false
-  // };
+    this.addNewBoard = this.addNewBoard.bind(this);
 
+  }
   newBoardbutton = () => {
     this.setState(prevState => ({
       newBoardbutton: !prevState.newBoardbutton,
@@ -41,58 +34,35 @@ class Boards extends Component {
       boardName: event.target.value
     });
   };
+
   componentDidMount() {
-    fetch(`https://api.trello.com/1/members/kotagirisaikrishna1/boards?&key=${this.state.key}&token=${this.state.token}`, {
-      method: 'GET'
-    })
-      .then(data => {
-        data.json()
-          .then(data => {
-            // console.log(data);
-            this.setState({
-              boards: data
-            });
-          });
-      }).catch(err => console.log(err))
+    this.props.fetchBoards();
   }
-  addNewBoard = () => {
-    fetch(`https://api.trello.com/1/boards/?name=${this.state.boardName}&key=${this.state.key}&token=${this.state.token}`, {
-      method: 'POST'
+  addNewBoard() {
+    const newBoard = {
+      name: this.state.boardName
+    };
+    // console.log('boardname :', this.state.boardName)
+    this.props.addNewBoard(newBoard);
+    this.setState({
+      boardName: ''
     })
-      .then(data => {
-        data.json()
-          .then(data => {
-            console.log(data)
-            this.setState({
-              boards: this.state.boards.concat([data]),
-              boardName: ''
-            });
-          });
-      }).catch(err => console.log(err))
-  };
-  deleteBoard = id => {
-    console.log(id)
-    console.log(this.state.key)
-    fetch(
-      `https://api.trello.com/1/boards/${id}?key=${this.state.key}&token=${this.state.token}`,
-      {
-        method: 'DELETE'
-      }
-    ).then(() => {
-      this.setState({ boards: this.state.boards.filter(board => board.id !== id) });
-    }).catch(err => console.log(err))
-  };
+  }
+
   render() {
+
+    // console.log(this.props)
     var newBoardbutton = this.state.newBoardbutton ? 'block' : 'none';
     var closeAddForm = this.state.closeAddForm ? 'block' : 'none'
-    var allBoards = this.state.boards.map(board => {
-      return <Board key={board.id}
+    const allboards = this.props.boards.map(board => (
+      <Board key={board.id}
         board={board}
-        deleteBoard={this.deleteBoard} />;
-    });
+      />
+    ));
     return (
-      <div className="boards d-flex flex-column">
-        {allBoards}
+      <div>
+        <h1>Boards</h1>
+        {allboards}
         <div className="card addList">
           <button className="addListButton btn btn-primary"
             onClick={this.newBoardbutton}
@@ -115,4 +85,9 @@ class Boards extends Component {
   }
 }
 
-export default Boards;
+const mapStateToProps = state => ({
+  boards: state.boards.boards,
+  board: state.boards.board
+});
+
+export default connect(mapStateToProps, { fetchBoards, addNewBoard })(Boards);

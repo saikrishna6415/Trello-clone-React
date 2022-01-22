@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateCheckItemName } from '../actions/boardActions';
 
 class CheckItem extends Component {
     state = {
-        input: this.props.checkItem.name,
+        checkItemName: this.props.checkItem.name,
         updatingCheckItem: false,
-        key: 'ffe39d279ee0a46d632ff7b9e7ac02b5',
-        token: '14edac06db12fc2ad32ab72d715ec5d841ee402c02a19e7dc162d6c265a1da6d'
-
+        // checked: true
     };
     handleForm = () => {
-        fetch(`https://api.trello.com/1/cards/${this.props.card}/checkItem/${this.props.checkItem.id}?key=${this.state.key}&token=${this.state.token}&name=${this.state.input}`, {
-            method: "PUT",
-        })
-            .then(() => {
-                this.setState({ updatingCheckItem: false });
+        const checkItemData = {
+            card: this.props.checkList.idCard,
+            checkItemId: this.props.checkItem.id,
+            checkItemName: this.state.checkItemName,
+            checkListId: this.props.checkList.id
 
-            }).catch(err => console.log(err))
+        }
+        this.props.updateCheckItemName(checkItemData)
+
+        this.setState({ updatingCheckItem: false });
+
     };
 
     handleUpdate = () => {
@@ -25,16 +29,14 @@ class CheckItem extends Component {
     }
 
     inputState = (e) => {
-        this.setState({ input: e.target.value });
+        this.setState({ checkItemName: e.target.value });
     };
 
     handleUpdateCheckItem = () => {
         this.setState({ updatingCheckItem: true });
     };
 
-
     render() {
-        // console.log(this.props)
         // console.log(this.props.checkItem.state)
         // console.log(this.state.updatingCheckItem)
         var updateButton = this.state.updatingCheckItem ? 'block' : 'none'
@@ -47,7 +49,7 @@ class CheckItem extends Component {
                     type='checkBox'
                     className='checkBox'
                     checked={this.props.checkItem.state === 'incomplete' ? false : true}
-                    readOnly
+
                 />
                 <div
                     style={{ width: "91%", marginTop: '12px' }}
@@ -56,15 +58,15 @@ class CheckItem extends Component {
                         <input type="text" style={{ width: "15em" }}
                             className="form-control"
                             onChange={this.inputState}
-                            value={this.state.input}
+                            value={this.state.checkItemName}
                         />
                     ) : (this.props.checkItem.state === "complete" ? (
                         <p
                             style={{ textDecoration: "line-through" }}>
-                            {this.state.input}
+                            {this.state.checkItemName}
                         </p>
                     ) : (
-                            <p>   {this.state.input}</p>
+                            <p>   {this.state.checkItemName}</p>
                         ))}
                 </div>
                 <button className="btn btn-primary" style={{ display: updateButton }} onClick={this.handleForm}>update</button>
@@ -77,5 +79,9 @@ class CheckItem extends Component {
         );
     }
 }
+const mapStateToProps = state => ({
+    checkItems: state.boards.checkItems,
+});
 
-export default CheckItem;
+
+export default connect(mapStateToProps, { updateCheckItemName })(CheckItem);
